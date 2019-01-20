@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <title>Кекстаграм</title>
+</head>
+<body>
+  <main>
+    <!-- Фильтрация изображений от других пользователей -->
+    <section class="img-filters img-filters--inactive container">
+      <h2 class="img-filters__title visually-hidden">Фильтр фотографий</h2>
+      <form class="img-filters__form" action="index.html" method="get" autocomplete="off">
+        <button type=button class="img-filters__button img-filters__button--active" id="filter-popular">Популярные</button>
+        <button type=button class="img-filters__button" id="filter-new">Новые</button>
+        <button type=button class="img-filters__button" id="filter-discussed">Обсуждаемые</button>
+      </form>
+    </section>
+
+    <div id='root'></div>
+  </main>
+
+  <footer class="page-footer container">
+    <div class="page-footer__wrapper">
+      <div class="page-footer__copyright copyright">
+        <p>Сделано в <a class="copyright__link copyright__link--text" href="https://htmlacademy.ru/intensive/javascript">HTML Academy</a> &copy; 2018</p>
+      </div>
+      <ul class="page-footer__contacts contacts">
+        <li><a href="https://twitter.com/htmlacademy_ru" class="contacts__link contacts__link--twitter">Twitter</a></li>
+        <li><a href="https://www.instagram.com/htmlacademy/" class="contacts__link contacts__link--instagram">Instagtam</a></li>
+        <li><a href="https://www.facebook.com/htmlacademy" class="contacts__link contacts__link--facebook">Facebook</a></li>
+        <li><a href="https://vk.com/htmlacademy" class="contacts__link contacts__link--vk">VK</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
