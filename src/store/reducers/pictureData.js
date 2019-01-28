@@ -1,11 +1,4 @@
-import {
-  SET_PICTURE_EFFECT,
-  SET_PICTURE_EFFECT_LEVEL,
-  SET_PICTURE_SCALE,
-  SET_PICTURE_HASHTAGS,
-  SET_PICTURE_COMMENT,
-  SET_DEFAULT_VALUES
-} from 'store/actions/actionTypes';
+import * as types from 'store/actions/actionTypes';
 
 
 const initialState = {
@@ -19,32 +12,32 @@ const initialState = {
 
 export default function pictureDataReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_PICTURE_EFFECT:
+    case types.SET_PICTURE_EFFECT:
       return {
         ...state,
         effect: action.payload
       }
-    case SET_PICTURE_EFFECT_LEVEL:
+    case types.SET_PICTURE_EFFECT_LEVEL:
       return {
         ...state,
         effectLevel: action.payload
       }
-    case SET_PICTURE_SCALE:
+    case types.SET_PICTURE_SCALE:
       return {
         ...state,
         scale: action.payload
       }
-    case SET_PICTURE_HASHTAGS:
+    case types.SET_PICTURE_HASHTAGS:
       return {
         ...state,
         hashtags: action.payload
       }
-    case SET_PICTURE_COMMENT:
+    case types.SET_PICTURE_COMMENT:
       return {
         ...state,
         description: action.payload
       }
-    case SET_DEFAULT_VALUES:
+    case types.SET_DEFAULT_VALUES:
       return {
         ...initialState
       }

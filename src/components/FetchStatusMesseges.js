@@ -9,9 +9,8 @@ import {uploadPicture} from 'services/utils';
 
 class FetchStatusMesseges extends Component {
   componentWillReceiveProps = (nextProps) => {
-    if (nextProps.isLoaded) {
+    if (nextProps.isLoaded || nextProps.isLoading) {
       this.props.pictureEditorHide();
-
     }
   }
 
@@ -62,8 +61,10 @@ class FetchStatusMesseges extends Component {
           </div>
         </section>
 
-        <div className={`img-upload__message img-upload__message--loading ${isLoading ? '' : 'visually-hidden'}`}>
-          Загружаем...
+        <div className={`loading ${isLoading ? '' : 'visually-hidden'}`}>
+          <div className='loading__inner'>
+            Загружаем...
+          </div>
         </div>
       </Fragment>
     );

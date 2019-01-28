@@ -130,7 +130,7 @@ module.exports = (env) => {
             rules: [
               {
                 test: /\.css$/,
-                exclude: /(node_modules)/,
+                exclude: /(node_modules?!rc-slider)/,
                 use: [
                   {
                     loader: 'style-loader'

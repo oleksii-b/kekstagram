@@ -24,16 +24,6 @@ export function getValidationStatus(options) {
   }
 }
 
-export function togglePictureEditorDisplay(options) {
-  if (options.show === true) {
-    document.getElementById('pictureEditor').classList.remove('hidden');
-  }
-
-  if (options.show === false) {
-    document.getElementById('pictureEditor').classList.add('hidden');
-
-    if (options.clear === true) {
-      document.getElementById('uploadFile').value = '';
-    }
-  }
+export function toggleBodyOverflow(option) {
+  document.body.style.overflow = option;
 }

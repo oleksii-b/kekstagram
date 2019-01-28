@@ -1,19 +1,16 @@
-import {
-  PICTURE_EDITOR_HIDE,
-  PICTURE_EDITOR_SHOW,
-  PICTURE_EDITOR_FIELD_VALIDATE
-} from './actionTypes';
+import * as types from './actionTypes';
+import {toggleBodyOverflow} from 'services/utils';
 
 
 export function pictureEditorHide() {
   return {
-    type: PICTURE_EDITOR_HIDE
+    type: types.PICTURE_EDITOR_HIDE
   }
 }
 
 export function pictureEditorShow() {
   return {
-    type: PICTURE_EDITOR_SHOW
+    type: types.PICTURE_EDITOR_SHOW
   }
 }
 
@@ -36,7 +33,7 @@ export function pictureEditorFieldValidate(values) {
   }
 
   return {
-    type: PICTURE_EDITOR_FIELD_VALIDATE,
+    type: types.PICTURE_EDITOR_FIELD_VALIDATE,
     payload: formFieldValidity
   }
 }

@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {getPictures, postPicture, postPictureSuccess, postPictureError} from 'store/actions/pictureFetch';
+import {fetchPictures, postPicture} from 'store/actions/pictureFetch';
 import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
 import {setDefaultValues} from 'store/actions/pictureData';
-import {togglePictureEditorDisplay} from 'services/utils';
 import PictureUploader from './PictureUploader';
 import PictureEditor from './PictureEditor';
 import PictureMini from './PictureMini';
@@ -16,7 +15,7 @@ class PictureList extends Component {
   }
 
   componentDidMount = () => {
-    this.props.getPictures();
+    this.props.fetchPictures();
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -107,10 +106,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getPictures: () => dispatch(getPictures()),
+    fetchPictures: () => dispatch(fetchPictures()),
     postPicture: (data) => dispatch(postPicture(data)),
-    postPictureSuccess: () => dispatch(postPictureSuccess()),
-    postPictureError: () => dispatch(postPictureError()),
     pictureEditorHide: () => dispatch(pictureEditorHide()),
     pictureEditorShow: () => dispatch(pictureEditorShow()),
     setDefaultValues: () => dispatch(setDefaultValues())

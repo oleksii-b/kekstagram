@@ -1,9 +1,12 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
-import {pictureEditorHide, pictureEditorShow, pictureEditorFieldValidate} from 'store/actions/pictureEditor';
-import {setPictureScale, setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/pictureData';
+import {pictureEditorHide, pictureEditorFieldValidate} from 'store/actions/pictureEditor';
+import {setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/pictureData';
+import PictureEffectLevel from './PictureEffectLevel';
 import PictureEffectList from './PictureEffectList';
+import PictureScale from './PictureScale';
+import {toggleBodyOverflow} from 'services/utils';
 
 
 class PictureEditor extends PureComponent {
@@ -13,20 +16,13 @@ class PictureEditor extends PureComponent {
 
   componentDidMount = () => {
     window.addEventListener('click', (evt) => {
-      if (evt.target.id === 'pictureEditor') {
-        this.resetPictureEditor();
-      }
-    });
-
-    document.addEventListener('keydown', (evt) => {
-      if (evt.keyCode === 27) {
+      if (evt.target === this.refs.overlay) {
         this.resetPictureEditor();
       }
     });
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.refs.scale.value = nextProps.scale + '%';
     this.refs.hashtags.value = nextProps.hashtags;
     this.refs.description.value = nextProps.description;
 
@@ -61,27 +57,19 @@ class PictureEditor extends PureComponent {
         isHashtagError
       });
     }
+
+    toggleBodyOverflow(nextProps.isHidden ? 'visible' : 'hidden');
+
+    if (this.props.picture !== nextProps.picture) {
+      this.refs.overlay.scrollTop = 0;
+    }
   }
 
   resetPictureEditor = () => {
+    this.refs.overlay.scrollTop = 0;
+
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
-  }
-
-  onScaleBtnClick = (evt) => {
-    const name = evt.target.dataset.name;
-    
-    let scale = this.props.scale;
-
-    if (name === 'increment') {
-      scale = scale < 100 ? scale + 25 : 100
-    }
-
-    if (name === 'decrement') {
-      scale = scale > 25 ? scale - 25 : 25
-    }
-
-    this.props.setPictureScale(scale);
   }
 
   onHashtagsChange = (evt) => {
@@ -105,7 +93,7 @@ class PictureEditor extends PureComponent {
     };
 
     return (
-      <div className={`img-upload__overlay ${this.props.isHidden ? 'hidden' : ''}`} id='pictureEditor'>
+      <div className={`img-upload__overlay overlay ${this.props.isHidden ? 'hidden' : ''}`} ref='overlay'>
         <div className='img-upload__wrapper'>
           <div className='img-upload__preview-container'>
             <button type='reset' className='img-upload__cancel cancel' onClick={this.onHidePictureEditorBtnClick}>
@@ -114,21 +102,18 @@ class PictureEditor extends PureComponent {
 
             {/* Изменение размера изображения */}
             <fieldset className='img-upload__scale scale'>
-              <button type='button' className='scale__control scale__control--smaller' onClick={this.onScaleBtnClick} data-name='decrement'>
-                Уменьшить
-              </button>
-
-              <input className='scale__control scale__control--value' ref='scale' defaultValue='100%' title='Image Scale' name='scale' readOnly />
-
-              <button type='button' className='scale__control scale__control--bigger' onClick={this.onScaleBtnClick} data-name='increment'>
-                Увеличить
-              </button>
+              <PictureScale />
             </fieldset>
 
             {/* Предварительный просмотр изображения */}
             <div className='img-upload__preview'>
               <img style={imgStyles} src={this.props.picture} className={`effects__preview--${this.props.effect}`} alt='Предварительный просмотр фотографии' />
             </div>
+
+            {/* Изменение глубины эффекта, накладываемого на изображение */}
+            <fieldset className="img-upload__effect-level  effect-level">
+              <PictureEffectLevel />
+            </fieldset>
           </div>
 
           {/* Наложение эффекта на изображение */}
@@ -167,6 +152,7 @@ function mapStateToProps(state) {
     isLoaded: state.pictureFetch.isLoaded,
     scale: state.pictureData.scale,
     effect: state.pictureData.effect,
+    effectLevel: state.pictureData.effectLevel,
     hashtags: state.pictureData.hashtags,
     description: state.pictureData.description
   }
@@ -175,9 +161,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     pictureEditorHide: () => dispatch(pictureEditorHide()),
-    pictureEditorShow: () => dispatch(pictureEditorShow()),
     pictureEditorFieldValidate: (values) => dispatch(pictureEditorFieldValidate(values)),
-    setPictureScale: (scale) => dispatch(setPictureScale(scale)),
     setPictureHashtags: (hashtags) => dispatch(setPictureHashtags(hashtags)),
     setPictureDescription: (description) => dispatch(setPictureDescription(description)),
     setDefaultValues: () => dispatch(setDefaultValues()),

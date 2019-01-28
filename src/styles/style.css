@@ -118,24 +118,20 @@ main {
 
 
 /**
- * Оверлей под экранами
+ * Фон перекрытия под экранами
  */
 
 .overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding: 50px 20px;
   position: fixed;
   top: 0;
-  left: 0;
-  z-index: 2;
-
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-
   width: 100%;
-  height: 100%;
-  padding-top: 60px;
-  overflow: auto;
-
-  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
 }
 
 
@@ -391,25 +387,6 @@ main {
 /* Окно для редактирования изображения
    ========================================================================== */
 
-.img-upload__overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 2;
-
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-
-  width: 100%;
-  height: 100%;
-
-  padding-top: 60px;
-  padding-bottom: 60px;
-  overflow: auto;
-
-  background-color: rgba(0, 0, 0, 0.8);
-}
-
 .img-upload__preview-container {
   position: relative;
   margin-bottom: 30px;
@@ -555,13 +532,14 @@ main {
   left: 50%;
 
   width: 495px;
-  height: 33px;
+  height: 32px;
 
   font-size: 12px;
   line-height: 42px;
   text-align: center;
   color: #ffffff;
   white-space: nowrap;
+  padding: 8px 18px;
 
   background-color: rgba(0, 0, 0, 0.6);
   border-radius: 33px;
@@ -573,52 +551,6 @@ main {
 
 .effect-level__value {
   display: none;
-}
-
-.effect-level__line {
-  position: absolute;
-  top: 50%;
-  right: 20px;
-  left: 20px;
-
-  height: 5px;
-
-  font-size: 0;
-
-  background-color: rgba(255, 231, 81, 0.4);
-
-  -webkit-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-          transform: translateY(-50%);
-}
-
-.effect-level__pin {
-  position: absolute;
-  top: 50%;
-  left: 20%;
-  z-index: 1;
-
-  width: 18px;
-  height: 18px;
-  margin: -9px 0 0;
-
-  background-color: #ffe753;
-  border-radius: 50%;
-
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%);
-
-  cursor: move;
-}
-
-.effect-level__depth {
-  position: absolute;
-
-  width: 20%;
-  height: 100%;
-
-  background-color: #ffe753;
 }
 
 
@@ -721,12 +653,12 @@ main {
 }
 
 .effects__preview--phobos {
-  -webkit-filter: blur(5px);
-          filter: blur(5px);
+  -webkit-filter: blur(3px);
+          filter: blur(3px);
 }
 
 .effects__preview--heat {
-  -webkit-filter: brightness(3);
+  -webkit-filter: brightness(attr(data-level number));
           filter: brightness(3);
 }
 
@@ -1243,41 +1175,17 @@ main {
 }
 
 
-/* Экраны с сообщениями для пользователя
-   ========================================================================== */
-
-.img-upload__message {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  top: 0;
-
-  padding-top: 250px;
-
-  width: 600px;
-  height: 100%;
-
-  font-family: "Open Sans", "Arial", sans-serif;
-  text-align: center;
-  font-weight: 700;
-  font-size: 20px;
-  color: #ffe753;
-
-  background-color: #3c3614;
-  transform: translateX(-50%);
-}
-
-
 /**
- * Экраны ошибки и успеха загрузки изображения
+ * Экраны процесса загрузки, ошибки и успеха загрузки изображения
  */
 
+.loading,
 .error,
 .success {
   position: fixed;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 
   left: 0;
   top: 0;
@@ -1288,13 +1196,14 @@ main {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
+.loading__inner,
 .error__inner,
 .success__inner {
   position: relative;
   width: 600px;
   padding: 50px 20px;
   padding-top: 150px;
-  margin-top: 200px;
+  margin: auto;
 
   display: flex;
   flex-direction: column;
@@ -1377,15 +1286,14 @@ main {
   opacity: 0.6;
 }
 
+.loading__inner {
+  padding: 100px 20px;
+}
 
-/**
- * Экран загрузки изображения
- */
-
-.img-upload__message--loading::before {
+.loading__inner::before {
   content: "";
   position: absolute;
-  bottom: 40%;
+  bottom: 60px;
   left: 50%;
 
   width: 300px;
@@ -1398,10 +1306,10 @@ main {
           transform: translateX(-50%);
 }
 
-.img-upload__message--loading::after {
+.loading__inner::after {
   content: "";
   position: absolute;
-  bottom: 40%;
+  bottom: 60px;
   left: 50%;
 
   width: 200px;

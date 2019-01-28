@@ -1,79 +1,55 @@
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 import {setPictureEffectLevel} from 'store/actions/pictureData';
 
 
 class PictureEffectLevel extends Component {
-  onMouseDown = (evt) => {
-    evt.preventDefault();
+  state = {
+    val: 20
+  }
 
-    const target = this.refs.pin;
-
-    var startCoords = {
-      x: evt.clientX
-    };
-
-    var onMouseMove = (moveEvt) => {
-      moveEvt.preventDefault();
-
-      var shift = {
-        x: startCoords.x - moveEvt.clientX
-      };
-
-      startCoords = {
-        x: moveEvt.clientX
-      };
-
-      let pinOffsetLeft = target.offsetLeft - shift.x;
-
-      if (pinOffsetLeft < 0) {
-        pinOffsetLeft = 0;
+  componentDidMount = () => {
+    document.addEventListener('keydown', (evt) => {
+      if (evt.keyCode === 27) {
+        this.resetPictureEditor();
       }
+    });
+  }
 
-      if (pinOffsetLeft > target.offsetLeft * 5) {
-        pinOffsetLeft = target.offsetLeft * 5;
-      }
+  componentWillReceiveProps = (nextProps) => {
+    this.setState({
+      val: nextProps.effectLevel
+    })
+  }
 
-      target.style.left = pinOffsetLeft + 'px';
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  onSliderChange = (val) => {
+    this.props.setPictureEffectLevel(val);
   }
 
   render = () => {
-    const picture = this.props.data;
-
     return (
       <Fragment>
-        <input className='effect-level__value' type='number' name='effect-level' defaultValue='20' />
+        <input className='effect-level__value' type='number' name='effect-level' value={this.state.val} />
 
-        <div className='effect-level__line' ref='line'>
-          <div className='effect-level__pin' ref='pin' tabIndex='0' onMouseDown={this.onMouseDown}>
-            Кнопка изменения глубины эффекта фотографии
-          </div>
-
-          <div className='effect-level__depth'>
-            Глубина эффекта фотографии
-          </div>
-        </div>
+        <Slider value={this.state.val} onChange={this.onSliderChange} />
       </Fragment>
     );
   }
 }
 
-function mapDispatchToProps(dispatch) {
+function mapStateToProps(state) {
   return {
-    setActivePicture: (effectLevel) => dispatch(setPictureEffectLevel(effectLevel))
+    effectLevel: state.pictureData.effectLevel
   }
 }
 
-export default connect(null, mapDispatchToProps)(PictureEffectLevel);
+function mapDispatchToProps(dispatch) {
+  return {
+    setPictureEffectLevel: (effectLevel) => dispatch(setPictureEffectLevel(effectLevel))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PictureEffectLevel);

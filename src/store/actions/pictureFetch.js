@@ -1,31 +1,24 @@
-import {
-  FETCH_PICTURES,
-  FETCH_PICTURE_START,
-  FETCH_PICTURE_SUCCESS,
-  FETCH_PICTURE_ERROR,
-  RESET_FETCH_STATUS,
-  SET_ACTIVE_PICTURE
-} from './actionTypes';
+import {createAction} from 'redux-actions';
+
+import * as types from './actionTypes';
 
 
-export function getPictures() {
+const fetchPicturesSuccess = createAction(types.FETCH_PICTURES);
+const postPictureStart = createAction(types.FETCH_PICTURE_START);
+const postPictureSuccess = createAction(types.FETCH_PICTURE_SUCCESS);
+const postPictureError = createAction(types.FETCH_PICTURE_ERROR);
+
+export function fetchPictures() {
   return async dispatch => {
     try {
       await fetch('https://raw.githubusercontent.com/oleksii-b/kekstagram/master/assets/data.json')
         .then((response) => response.json())
         .then((data) => {
-          dispatch(fetchPictures(data));
+          dispatch(fetchPicturesSuccess(data));
         });
     } catch (error) {
       console.error(error);
     }
-  }
-}
-
-export function fetchPictures(data) {
-  return {
-    type: FETCH_PICTURES,
-    payload: data
   }
 }
 
@@ -52,33 +45,15 @@ export function postPicture(data) {
   }
 }
 
-export function postPictureStart() {
-  return {
-    type: FETCH_PICTURE_START
-  }
-}
-
-export function postPictureSuccess() {
-  return {
-    type: FETCH_PICTURE_SUCCESS
-  }
-}
-
-export function postPictureError() {
-  return {
-    type: FETCH_PICTURE_ERROR
-  }
-}
-
 export function resetFetchStatus() {
   return {
-    type: RESET_FETCH_STATUS
+    type: types.RESET_FETCH_STATUS
   }
 }
 
 export function setActivePicture(data) {
   return {
-    type: SET_ACTIVE_PICTURE,
+    type: types.SET_ACTIVE_PICTURE,
     payload: data
   }
 }

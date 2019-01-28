@@ -2,28 +2,26 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as d3 from 'd3-fetch';
 
+import {toggleBodyOverflow} from 'services/utils';
+
+
+const initialState = {
+  isHidden: true,
+  isLoadCommentBtnHidden: false,
+  visibleCommentSize: 0,
+  data: {
+    comments: []
+  }
+};
 
 class PictureDetails extends Component {
-  constructor(props) {
-    super(props);
-
-    this.initialState = {
-      isHidden: true,
-      isLoadCommentBtnHidden: false,
-      visibleCommentSize: 0,
-      data: {
-        comments: []
-      }
-    };
-
-    this.state = {
-      ...this.initialState
-    };
+  state = {
+    ...initialState
   }
 
   componentDidMount = () => {
     window.addEventListener('click', (evt) => {
-      if (evt.target.id === 'pictureDetails') {
+      if (evt.target === this.refs.overlay) {
         this.hideDialog();
       }
     });
@@ -50,6 +48,7 @@ class PictureDetails extends Component {
     if (nextProps.activePicture.url) {
       const commentsSize = nextProps.activePicture.comments.length;
 
+      toggleBodyOverflow('hidden');
       this.setState({
         ...this.initialState,
         visibleCommentSize: commentsSize < 5 ? commentsSize : 5,
@@ -61,9 +60,11 @@ class PictureDetails extends Component {
   }
 
   hideDialog = () => {
+    this.refs.overlay.scrollTop = 0;
+
+    toggleBodyOverflow('visible');
     this.setState({
-      ...this.initialState,
-      isHidden: true
+      ...initialState
     });
   }
 
@@ -85,7 +86,7 @@ class PictureDetails extends Component {
     const activePicture = this.state.data;
 
     return (
-      <section className={`big-picture overlay ${this.state.isHidden ? 'hidden' : ''}`} id='pictureDetails'>
+      <section className={`big-picture overlay ${this.state.isHidden ? 'hidden' : ''}`} ref='overlay'>
         <h2 className='big-picture__title visually-hidden'>
           Просмотр фотографии
         </h2>
