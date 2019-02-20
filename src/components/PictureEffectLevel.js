@@ -1,10 +1,10 @@
 import React, {Fragment, Component} from 'react';
 import {connect} from 'react-redux';
-import Slider from 'rc-slider';
+import Slider, { createSliderWithTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {setPictureEffectLevel} from 'store/actions/pictureData';
-
+const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 class PictureEffectLevel extends Component {
   state = {
@@ -34,7 +34,11 @@ class PictureEffectLevel extends Component {
       <Fragment>
         <input className='effect-level__value' type='number' name='effect-level' value={this.state.val} />
 
-        <Slider value={this.state.val} onChange={this.onSliderChange} />
+        <SliderWithTooltip
+          value={this.state.val}
+          onChange={this.onSliderChange}
+          tipFormatter={value => `${value}%`}
+        />
       </Fragment>
     );
   }

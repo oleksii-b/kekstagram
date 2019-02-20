@@ -32,7 +32,6 @@ body {
   font-size: 14px;
   line-height: 20px;
   color: #ffffff;
-  text-transform: uppercase;
 
   background-color: #232321;
 }
@@ -76,6 +75,15 @@ main {
 .modal-open {
   height: 100vh;
   overflow: hidden;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.error-msg {
+  color: red;
+  margin: 5px 10px 0;
 }
 
 
@@ -303,8 +311,6 @@ main {
 .img-upload__wrapper {
   margin: 0 auto;
   width: 582px;
-
-  text-align: center;
 }
 
 .img-upload__form {
@@ -558,6 +564,10 @@ main {
  * Блок с эффектами, которые можно применить к изображению
  */
 
+.img-upload__effects {
+  text-transform: uppercase;
+}
+
 .effects {
   margin: 0;
   padding: 0;
@@ -667,20 +677,21 @@ main {
  * Блок добавления хэштегов и комментария к изображению
  */
 
-.text {
-  margin: 0;
-  padding: 0;
-  margin-bottom: 30px;
+.img-upload__text {
+  margin: 0 auto;
+  width: 450px;
+}
 
-  text-align: center;
+.text {
   border: none;
+  margin-bottom: 30px;
+  padding: 0;
 }
 
 .text__hashtags {
-  width: 450px;
+  width: 100%;
 
   margin: 0 auto;
-  margin-bottom: 20px;
   padding: 5px 10px;
 
   font-family: "Open Sans", "Arial", sans-serif;
@@ -696,7 +707,7 @@ main {
 }
 
 .text__description {
-  width: 450px;
+  width: 100%;
   height: 100px;
 
   margin: 0 auto;
@@ -715,18 +726,17 @@ main {
  */
 
 .img-upload__submit {
-  padding: 10px 20px;
-
+  background-color: rgba(255, 231, 82, 0.2);
+  border-radius: 4px;
+  border: 0;
   color: #ffe753;
-  text-align: center;
-  text-transform: uppercase;
+  display: block;
   font-family: "Open Sans", "Arial", sans-serif;
   font-weight: 700;
-
-  background-color: rgba(255, 231, 82, 0.2);
-
-  border: 0;
-  border-radius: 4px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
 }
 
 .img-upload__submit:hover,
@@ -1182,18 +1192,17 @@ main {
 .loading,
 .error,
 .success {
-  position: fixed;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  bottom: 0;
   display: flex;
   justify-content: center;
-  align-items: center;
-
   left: 0;
-  top: 0;
+  position: fixed;
   right: 0;
-  bottom: 0;
+  text-transform: uppercase;
+  top: 0;
   z-index: 1;
-
-  background-color: rgba(0, 0, 0, 0.8);
 }
 
 .loading__inner,

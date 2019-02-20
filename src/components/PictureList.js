@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {fetchPictures, postPicture} from 'store/actions/pictureFetch';
+import {fetchPictures} from 'store/actions/pictureFetch';
 import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
 import {setDefaultValues} from 'store/actions/pictureData';
 import PictureUploader from './PictureUploader';
@@ -49,32 +49,27 @@ class PictureList extends Component {
     }
   }
 
-  onUploadFormSubit = (evt) => {
-    evt.preventDefault();
-    this.props.postPicture(new FormData(evt.target));
-  }
-
   render() {
     return (
-      <section className="pictures container">
-        <h2 className="pictures__title visually-hidden">Фотографии других пользователей</h2>
+      <section className='pictures container'>
+        <h2 className='pictures__title visually-hidden'>
+          Фотографии других пользователей
+        </h2>
 
         {/* Поле для загрузки нового изображения на сайт */}
-        <section className="img-upload">
-          <div className="img-upload__wrapper">
-            <h2 className="img-upload__title visually-hidden">
+        <section className='img-upload'>
+          <div className='img-upload__wrapper'>
+            <h2 className='img-upload__title visually-hidden'>
               Загрузка фотографии
             </h2>
 
-            <form action="https://js.dump.academy/kekstagram" className="img-upload__form" id="upload-select-image" method="post" encType="multipart/form-data" autoComplete="off" onSubmit={this.onUploadFormSubit}>
+            <PictureEditor
+              picture={this.state.picture}
+            >
               <PictureUploader
                 onInputChange={this.onUploaderValueChange}
               />
-
-              <PictureEditor
-                picture={this.state.picture}
-              />
-            </form>
+            </PictureEditor>
           </div>
         </section>
 
@@ -107,7 +102,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     fetchPictures: () => dispatch(fetchPictures()),
-    postPicture: (data) => dispatch(postPicture(data)),
     pictureEditorHide: () => dispatch(pictureEditorHide()),
     pictureEditorShow: () => dispatch(pictureEditorShow()),
     setDefaultValues: () => dispatch(setDefaultValues())

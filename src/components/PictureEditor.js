@@ -1,20 +1,22 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Field, reduxForm} from 'redux-form';
 
+import {postPicture} from 'store/actions/pictureFetch';
 import {pictureEditorHide, pictureEditorFieldValidate} from 'store/actions/pictureEditor';
 import {setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/pictureData';
 import PictureEffectLevel from './PictureEffectLevel';
 import PictureEffectList from './PictureEffectList';
 import PictureScale from './PictureScale';
+import FormField from './FormField';
 import {toggleBodyOverflow} from 'services/utils';
+import {correctHashtag} from 'services/validation';
 
 
-class PictureEditor extends PureComponent {
-  state = {
-    isHashtagError: false
-  }
-
+class PictureEditor extends Component {
   componentDidMount = () => {
+    this.props.initialize();
+
     window.addEventListener('click', (evt) => {
       if (evt.target === this.refs.overlay) {
         this.resetPictureEditor();
@@ -23,46 +25,19 @@ class PictureEditor extends PureComponent {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.refs.hashtags.value = nextProps.hashtags;
-    this.refs.description.value = nextProps.description;
-
-    const isHashtagError = !nextProps.formFieldValidity.hashtags;
-
-    if (isHashtagError) {
-      const hashtags = nextProps.hashtags.trim();
-
-      if (hashtags.length) {
-        if (this.props.isLoaded === null) {
-          if (hashtags.charAt(0) === '#') {
-            this.setState({
-              isHashtagError: hashtags.length > 1 ? isHashtagError : false
-            });
-          } else {
-            this.setState({
-              isHashtagError
-            });
-          }
-        } else {
-          this.setState({
-            isHashtagError
-          });
-        }
-      } else {
-        this.setState({
-          isHashtagError: false
-        });
-      }
-    } else {
-      this.setState({
-        isHashtagError
-      });
-    }
-
     toggleBodyOverflow(nextProps.isHidden ? 'visible' : 'hidden');
 
     if (this.props.picture !== nextProps.picture) {
       this.refs.overlay.scrollTop = 0;
+
+      this.props.initialize();
     }
+  }
+
+  onFormSubit = (evt) => {
+    evt.preventDefault();
+    this.props.handleSubmit();
+    this.props.postPicture(new FormData(evt.target));
   }
 
   resetPictureEditor = () => {
@@ -70,6 +45,7 @@ class PictureEditor extends PureComponent {
 
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
+    this.props.initialize();
   }
 
   onHashtagsChange = (evt) => {
@@ -93,6 +69,9 @@ class PictureEditor extends PureComponent {
     };
 
     return (
+    <form action='https://js.dump.academy/kekstagram' className='img-upload__form' id='upload-select-image' method='post' encType='multipart/form-data' autoComplete='off' onSubmit={this.onFormSubit}>
+      {this.props.children}
+
       <div className={`img-upload__overlay overlay ${this.props.isHidden ? 'hidden' : ''}`} ref='overlay'>
         <div className='img-upload__wrapper'>
           <div className='img-upload__preview-container'>
@@ -111,7 +90,7 @@ class PictureEditor extends PureComponent {
             </div>
 
             {/* Изменение глубины эффекта, накладываемого на изображение */}
-            <fieldset className="img-upload__effect-level  effect-level">
+            <fieldset className='img-upload__effect-level  effect-level'>
               <PictureEffectLevel />
             </fieldset>
           </div>
@@ -123,14 +102,17 @@ class PictureEditor extends PureComponent {
 
           {/* Добавление хэш-тегов и комментария к изображению */}
           <fieldset className='img-upload__text text'>
-            <input className={`text__hashtags ${this.state.isHashtagError ? 'text__hashtags--error' : ''}`} ref='hashtags' name='hashtags' placeholder='#хэш-тег' onChange={this.onHashtagsChange} />
-
-            {
-              this.state.isHashtagError &&
-              <div className='hidden'>
-                Неверный формат
-              </div>
-            }
+            <Field
+              name='hashtags'
+              component={FormField}
+              type='text'
+              name='hashtags'
+              placeholder='#хэш-тег'
+              groupClass='form-group'
+              controlClass='text__hashtags'
+              errorClass='text__hashtags--error'
+              validate={[correctHashtag]}
+            />
 
             <textarea className='text__description' ref='description' name='description' placeholder='Ваш комментарий...' onChange={this.onDescriptionChange}></textarea>
           </fieldset>
@@ -141,6 +123,7 @@ class PictureEditor extends PureComponent {
           </button>
         </div>
       </div>
+    </form>
     );
   }
 }
@@ -154,18 +137,28 @@ function mapStateToProps(state) {
     effect: state.pictureData.effect,
     effectLevel: state.pictureData.effectLevel,
     hashtags: state.pictureData.hashtags,
-    description: state.pictureData.description
+    description: state.pictureData.description,
   }
 }
 
 function mapDispatchToProps(dispatch) {
   return {
+    postPicture: (data) => dispatch(postPicture(data)),
     pictureEditorHide: () => dispatch(pictureEditorHide()),
     pictureEditorFieldValidate: (values) => dispatch(pictureEditorFieldValidate(values)),
     setPictureHashtags: (hashtags) => dispatch(setPictureHashtags(hashtags)),
     setPictureDescription: (description) => dispatch(setPictureDescription(description)),
-    setDefaultValues: () => dispatch(setDefaultValues()),
+    setDefaultValues: () => dispatch(setDefaultValues())
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PictureEditor);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  reduxForm({
+    form: 'form',
+    enableReinitialize: true,
+    onSubmit: () => void(0)
+  })(PictureEditor)
+);

@@ -27,18 +27,21 @@ export function postPicture(data) {
     dispatch(postPictureStart());
 
     try {
-      const response = await fetch('https://js.dump.academy/kekstagram', {
+      fetch('https://js.dump.academy/kekstagram', {
         method: 'POST',
         body: data
-      });
-
-      response.json().then((data) => {
-        if (data instanceof Array) {
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data instanceof Array) {
+            dispatch(postPictureError());
+          } else {
+            dispatch(postPictureSuccess());
+          }
+        })
+        .catch((error) => {
           dispatch(postPictureError());
-        } else {
-          dispatch(postPictureSuccess());
-        }
-      });
+        });
     } catch (error) {
       dispatch(postPictureError());
     }

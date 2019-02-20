@@ -1,10 +1,10 @@
-import React, {Component, Fragment} from 'react';
+import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'react-redux';
 
 import {setPictureScale} from 'store/actions/pictureData';
 
 
-class PictureScale extends Component {
+class PictureScale extends PureComponent {
   constructor(props) {
     super(props);
 
