@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
-import {fetchPictures} from 'store/actions/pictureFetch';
+import {getPictures} from 'store/actions/getPictures';
 import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
-import {setDefaultValues} from 'store/actions/pictureData';
+import {setDefaultValues} from 'store/actions/setPictureData';
 import PictureUploader from './PictureUploader';
 import PictureEditor from './PictureEditor';
 import PictureMini from './PictureMini';
@@ -38,12 +38,12 @@ class PictureList extends Component {
     if (input.files && input.files[0]) {
       const reader = new FileReader();
 
-      reader.onload = (evt) => {
+      reader.addEventListener('load', (evt) => {
         this.props.pictureEditorShow();
         this.setState({
           picture: evt.target.result
         });
-      };
+      });
 
       reader.readAsDataURL(input.files[0]);
     }
@@ -101,7 +101,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    fetchPictures: () => dispatch(fetchPictures()),
+    fetchPictures: () => dispatch(getPictures()),
     pictureEditorHide: () => dispatch(pictureEditorHide()),
     pictureEditorShow: () => dispatch(pictureEditorShow()),
     setDefaultValues: () => dispatch(setDefaultValues())

@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import Slider, { createSliderWithTooltip } from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-import {setPictureEffectLevel} from 'store/actions/pictureData';
+import {setPictureEffectLevel} from 'store/actions/setPictureData';
 const SliderWithTooltip = createSliderWithTooltip(Slider);
 
 class PictureEffectLevel extends Component {

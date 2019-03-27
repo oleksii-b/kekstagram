@@ -1,7 +1,7 @@
 import React, {PureComponent, Fragment} from 'react';
 import {connect} from 'react-redux';
 
-import {setPictureScale} from 'store/actions/pictureData';
+import {setPictureScale} from 'store/actions/setPictureData';
 
 
 class PictureScale extends PureComponent {

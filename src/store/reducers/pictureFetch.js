@@ -11,7 +11,7 @@ const initialState = {
 
 export default function pictureFetchReducer(state = initialState, action) {
   switch (action.type) {
-    case types.FETCH_PICTURES:
+    case types.GET_PICTURES_SUCCESS:
       return {
         ...state,
         all: action.payload

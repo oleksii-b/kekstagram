@@ -2,10 +2,7 @@ import * as types from 'store/actions/actionTypes';
 
 
 const initialState = {
-  isHidden: true,
-  formFieldValidity: {
-    hashtags: true
-  }
+  isHidden: true
 };
 
 export default function pictureEditorReducer(state = initialState, action) {
@@ -19,11 +16,6 @@ export default function pictureEditorReducer(state = initialState, action) {
       return {
         ...state,
         isHidden: false
-      }
-    case types.PICTURE_EDITOR_FIELD_VALIDATE:
-      return {
-        ...state,
-        formFieldValidity: action.payload
       }
     default:
       return state

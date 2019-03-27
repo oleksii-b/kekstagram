@@ -3,50 +3,10 @@ import {createAction} from 'redux-actions';
 import * as types from './actionTypes';
 
 
-const fetchPicturesSuccess = createAction(types.FETCH_PICTURES);
-const postPictureStart = createAction(types.FETCH_PICTURE_START);
-const postPictureSuccess = createAction(types.FETCH_PICTURE_SUCCESS);
-const postPictureError = createAction(types.FETCH_PICTURE_ERROR);
-
-export function fetchPictures() {
-  return async dispatch => {
-    try {
-      await fetch('https://raw.githubusercontent.com/oleksii-b/kekstagram/master/assets/data.json')
-        .then((response) => response.json())
-        .then((data) => {
-          dispatch(fetchPicturesSuccess(data));
-        });
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
-
-export function postPicture(data) {
-  return async dispatch => {
-    dispatch(postPictureStart());
-
-    try {
-      fetch('https://js.dump.academy/kekstagram', {
-        method: 'POST',
-        body: data
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data instanceof Array) {
-            dispatch(postPictureError());
-          } else {
-            dispatch(postPictureSuccess());
-          }
-        })
-        .catch((error) => {
-          dispatch(postPictureError());
-        });
-    } catch (error) {
-      dispatch(postPictureError());
-    }
-  }
-}
+export const postPicture = createAction(types.POST_PICTURE);
+export const postPictureStart = createAction(types.FETCH_PICTURE_START);
+export const postPictureSuccess = createAction(types.FETCH_PICTURE_SUCCESS);
+export const postPictureError = createAction(types.FETCH_PICTURE_ERROR);
 
 export function resetFetchStatus() {
   return {

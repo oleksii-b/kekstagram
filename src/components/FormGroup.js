@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 
 
-export default class FormField extends PureComponent {
+export default class FormGroup extends PureComponent {
   render() {
-    const {input, type, placeholder, value, meta} = this.props;
+    const {input, type, placeholder, meta} = this.props;
     const showError = meta.error && meta.submitFailed;
     const controlClassName = `${this.props.controlClass} ${showError ? this.props.errorClass : ''}`;
 

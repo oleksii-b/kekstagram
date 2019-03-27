@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {resetFetchStatus} from 'store/actions/pictureFetch';
 import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
-import {setDefaultValues} from 'store/actions/pictureData';
+import {setDefaultValues} from 'store/actions/setPictureData';
 import {uploadPicture} from 'services/utils';
 
 

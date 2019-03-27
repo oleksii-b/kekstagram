@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import {Field, reduxForm} from 'redux-form';
 
 import {postPicture} from 'store/actions/pictureFetch';
-import {pictureEditorHide, pictureEditorFieldValidate} from 'store/actions/pictureEditor';
-import {setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/pictureData';
+import {pictureEditorHide} from 'store/actions/pictureEditor';
+import {setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/setPictureData';
 import PictureEffectLevel from './PictureEffectLevel';
 import PictureEffectList from './PictureEffectList';
 import PictureScale from './PictureScale';
-import FormField from './FormField';
+import FormGroup from './FormGroup';
 import {toggleBodyOverflow} from 'services/utils';
 import {correctHashtag} from 'services/validation';
 
@@ -50,9 +50,6 @@ class PictureEditor extends Component {
 
   onHashtagsChange = (evt) => {
     this.props.setPictureHashtags(evt.target.value);
-    this.props.pictureEditorFieldValidate({
-      hashtags: evt.target.value
-    })
   }
 
   onDescriptionChange = (evt) => {
@@ -90,7 +87,7 @@ class PictureEditor extends Component {
             </div>
 
             {/* Изменение глубины эффекта, накладываемого на изображение */}
-            <fieldset className='img-upload__effect-level  effect-level'>
+            <fieldset className={`img-upload__effect-level effect-level ${this.props.effect === 'none' ? 'hidden' : ''}`}>
               <PictureEffectLevel />
             </fieldset>
           </div>
@@ -104,9 +101,8 @@ class PictureEditor extends Component {
           <fieldset className='img-upload__text text'>
             <Field
               name='hashtags'
-              component={FormField}
+              component={FormGroup}
               type='text'
-              name='hashtags'
               placeholder='#хэш-тег'
               groupClass='form-group'
               controlClass='text__hashtags'
@@ -145,7 +141,6 @@ function mapDispatchToProps(dispatch) {
   return {
     postPicture: (data) => dispatch(postPicture(data)),
     pictureEditorHide: () => dispatch(pictureEditorHide()),
-    pictureEditorFieldValidate: (values) => dispatch(pictureEditorFieldValidate(values)),
     setPictureHashtags: (hashtags) => dispatch(setPictureHashtags(hashtags)),
     setPictureDescription: (description) => dispatch(setPictureDescription(description)),
     setDefaultValues: () => dispatch(setDefaultValues())

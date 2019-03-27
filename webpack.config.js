@@ -1,27 +1,27 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  autoprefixer = require('autoprefixer'),
-  merge = require('webpack-merge'),
-  path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const autoprefixer = require('autoprefixer');
+const merge = require('webpack-merge');
+const path = require('path');
 
-const bundleFileName = 'bundle.js',
-  cssLoaders = [
-    {
-      loader: 'css-loader'
-    }, {
-      loader: 'postcss-loader',
-      options: {
-        plugins: [
-          autoprefixer({
-            browsers: [
-              'ie >= 8',
-              'last 3 version'
-            ]
-          })
-        ]
-      }
+const bundleFileName = 'bundle.js';
+const cssLoaders = [
+  {
+    loader: 'css-loader'
+  }, {
+    loader: 'postcss-loader',
+    options: {
+      plugins: [
+        autoprefixer({
+          browsers: [
+            'ie >= 8',
+            'last 3 version'
+          ]
+        })
+      ]
     }
-  ];
+  }
+];
 
 
 module.exports = (env) => {
@@ -75,39 +75,11 @@ module.exports = (env) => {
         }, {
           test: /(fonts)/,
           exclude: /(node_modules)/,
-          loader: (env === 'build') ? 'url-loader?limit=1024&name=/fonts/[name].[ext]' : 'file-loader'
+          loader: (env === 'build') ? 'url-loader?limit=1024&name=fonts/[name].[ext]' : 'file-loader'
         }, {
           test: /(img)/,
           exclude: /(node_modules)/,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 100000,
-              fallback: 'file-loader',
-              name: '[name].[ext]',
-              useRelativePath: true,
-              publicPath: 'img',
-              outputPath: 'img'
-            }
-          }
-        }, {
-          test: /(photos)/,
-          exclude: /(node_modules)/,
-          // loader: 'url-loader?limit=1024&name=/photos/[name].[ext]' : 'file-loader',
-          // options: {
-          //   name: 'photos/[name].[ext]'
-          // }
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 100000,
-              fallback: 'file-loader',
-              name: 'photos/[name].[ext]',
-              useRelativePath: true,
-              publicPath: '/',
-              outputPath: '/'
-            }
-          }
+          loader: (env === 'build') ? 'url-loader?limit=10000&name=img/[name].[ext]' : 'file-loader'
         }
       ]
     }
@@ -130,7 +102,7 @@ module.exports = (env) => {
             rules: [
               {
                 test: /\.css$/,
-                exclude: /(node_modules?!rc-slider)/,
+                exclude: /(node_modules?!(\/rc-slider))/,
                 use: [
                   {
                     loader: 'style-loader'
@@ -147,19 +119,26 @@ module.exports = (env) => {
         common,
         {
           plugins: [
-            new ExtractTextPlugin('css/[name].css')
+            new MiniCssExtractPlugin({
+              filename: 'css/[name].css'
+            })
           ],
 
           module: {
             rules: [
               {
                 test: /\.css$/,
-                exclude: /(node_modules)/,
-                use: ExtractTextPlugin.extract({
-                  publicPath: '../',
-                  fallback: 'style-loader',
-                  use: [...cssLoaders]
-                })
+                exclude: /(node_modules?!(\/rc-slider))/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                      publicPath: '../',
+                      fallback: 'style-loader'
+                    }
+                  },
+                  ...cssLoaders,
+                ]
               }
             ]
           }

@@ -1,6 +1,14 @@
 import * as types from './actionTypes';
 
 
+export function setDefaultValues() {
+  document.getElementById('uploadFile').value = null;
+
+  return {
+    type: types.SET_DEFAULT_VALUES
+  }
+}
+
 export function setPictureEffect(effectName) {
   return {
     type: types.SET_PICTURE_EFFECT,
@@ -33,13 +41,5 @@ export function setPictureDescription(comment) {
   return {
     type: types.SET_PICTURE_COMMENT,
     payload: comment
-  }
-}
-
-export function setDefaultValues() {
-  document.getElementById('uploadFile').value = null;
-
-  return {
-    type: types.SET_DEFAULT_VALUES
   }
 }

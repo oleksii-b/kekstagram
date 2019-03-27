@@ -2,10 +2,10 @@ export function correctHashtag(value) {
   let status = {};
 
   if (typeof value === 'string') {
-    const hashtags = value.split(' ');
+    const hashtags = value.trim().split(' ');
 
     for (let hashtag of hashtags) {
-      if (!hashtag.trim().match(/^#[^#]+$/)) {
+      if (!hashtag.match(/^#[^#]+$/)) {
         return 'Неверный формат';
       }
     }
