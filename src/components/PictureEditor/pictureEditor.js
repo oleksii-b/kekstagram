@@ -1,15 +1,14 @@
-import React, {Component} from 'react';
-import {Field, reduxForm} from 'redux-form';
+import React from 'react';
+import {Field} from 'redux-form';
 
 import PictureEffectLevel from 'components/PictureEffectLevel';
 import PictureEffectList from 'components/PictureEffectList';
 import PictureScale from 'components/PictureScale';
 import FormGroup from 'components/UI/FormGroup';
 import {correctHashtag} from 'services/validation';
-import PicturePreview from './PicturePreview';
 
 
-export default function pictureEditor({pictureUploader, isHidden, hide, picture, scale, effectName, setOverlayRef, setPictureHashtags, submitForm}) {
+export default function pictureEditor({pictureUploader, picturePreview, isHidden, hide, effectName, setOverlayRef, setPictureHashtags, submitForm}) {
   const onDescriptionChange = (evt) => setPictureHashtags(evt.target.value);
 
   return (
@@ -30,12 +29,7 @@ export default function pictureEditor({pictureUploader, isHidden, hide, picture,
 
             {/* Предварительный просмотр изображения */}
             <div className='img-upload__preview'>
-              <PicturePreview
-                scale={scale}
-                src={picture} 
-                className={`effects__preview--${effectName}`}
-                alt='Предварительный просмотр фотографии'
-              />
+              {picturePreview}
             </div>
 
             {/* Изменение глубины эффекта, накладываемого на изображение */}

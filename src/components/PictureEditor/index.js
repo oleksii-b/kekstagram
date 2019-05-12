@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Field, reduxForm} from 'redux-form';
+import {reduxForm} from 'redux-form';
 
 import {postPicture} from 'store/actions/pictureFetch';
 import {pictureEditorHide} from 'store/actions/pictureEditor';
 import {setPictureHashtags, setPictureDescription, setDefaultValues} from 'store/actions/setPictureData';
 import {toggleBodyOverflow} from 'services/utils';
+import PicturePreview from './PicturePreview';
 import pictureEditor from './pictureEditor';
 
 
@@ -50,29 +51,43 @@ class PictureEditor extends Component {
     this.props.setPictureHashtags(evt.target.value);
   }
 
-  render = () => pictureEditor({
-    pictureUploader: this.props.children,
-    isHidden: this.props.isHidden,
-    hide: this.resetPictureEditor,
-    picture: this.props.picture,
-    effectName: this.props.effect,
-    scale: this.props.scale,
-    setOverlayRef: this.setOverlayRef,
-    setPictureHashtags: this.props.setPictureHashtags,
-    submitForm: this.submitForm
-  });
+  render = () => {
+    const {isHidden, picture, effect, effectLevel, scale, setPictureHashtags, children} = this.props;
+
+    return pictureEditor({
+      isHidden,
+      hide: this.resetPictureEditor,
+      effectName: effect,
+      setOverlayRef: this.setOverlayRef,
+      setPictureHashtags,
+      submitForm: this.submitForm,
+      pictureUploader: children,
+      picturePreview: (
+        <PicturePreview
+          scale={scale}
+          src={picture}
+          effectName={effect}
+          effectLevel={effectLevel}
+          alt='Предварительный просмотр фотографии'
+        />
+      )
+    });
+  }
 }
 
 function mapStateToProps(state) {
+  const {isHidden, formFieldValidity, isLoaded} = state.pictureFetch;
+  const {scale, effect, effectLevel, hashtags, description} = state.pictureData;
+
   return {
-    isHidden: state.pictureEditor.isHidden,
-    formFieldValidity: state.pictureEditor.formFieldValidity,
-    isLoaded: state.pictureFetch.isLoaded,
-    scale: state.pictureData.scale,
-    effect: state.pictureData.effect,
-    effectLevel: state.pictureData.effectLevel,
-    hashtags: state.pictureData.hashtags,
-    description: state.pictureData.description
+    isHidden,
+    formFieldValidity,
+    isLoaded,
+    scale,
+    effect,
+    effectLevel,
+    hashtags,
+    description
   }
 }
 
