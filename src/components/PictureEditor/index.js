@@ -76,18 +76,17 @@ class PictureEditor extends Component {
 }
 
 function mapStateToProps(state) {
-  const {isHidden, formFieldValidity, isLoaded} = state.pictureFetch;
   const {scale, effect, effectLevel, hashtags, description} = state.pictureData;
 
   return {
-    isHidden,
-    formFieldValidity,
-    isLoaded,
     scale,
     effect,
     effectLevel,
     hashtags,
-    description
+    description,
+    isHidden: state.pictureEditor.isHidden,
+    formFieldValidity: state.pictureEditor.formFieldValidity,
+    isLoaded: state.pictureFetch.isLoaded
   }
 }
 
