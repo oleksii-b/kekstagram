@@ -4,9 +4,7 @@ import {connect} from 'react-redux';
 import {getPictures} from 'store/actions/getPictures';
 import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
 import {setDefaultValues} from 'store/actions/setPictureData';
-import PictureUploader from './PictureUploader';
-import PictureEditor from './PictureEditor';
-import PictureMini from './PictureMini';
+import pictureList from './pictureList';
 
 
 class PictureList extends Component {
@@ -49,45 +47,11 @@ class PictureList extends Component {
     }
   }
 
-  render() {
-    return (
-      <section className='pictures container'>
-        <h2 className='pictures__title visually-hidden'>
-          Фотографии других пользователей
-        </h2>
-
-        {/* Поле для загрузки нового изображения на сайт */}
-        <section className='img-upload'>
-          <div className='img-upload__wrapper'>
-            <h2 className='img-upload__title visually-hidden'>
-              Загрузка фотографии
-            </h2>
-
-            <PictureEditor
-              picture={this.state.picture}
-            >
-              <PictureUploader
-                onInputChange={this.onUploaderValueChange}
-              />
-            </PictureEditor>
-          </div>
-        </section>
-
-        {
-          !!this.state.pictures.length
-          &&
-            this.state.pictures.map((picture) => {
-              return (
-                <PictureMini
-                  key={picture.url}
-                  data={picture}
-                />
-              );
-            })
-        }
-      </section>
-    );
-  }
+  render = () => pictureList({
+    picture: this.state.picture,
+    pictures: this.state.pictures,
+    onUploaderValueChange: this.onUploaderValueChange
+  })
 };
 
 function mapStateToProps(state) {

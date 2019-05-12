@@ -5,9 +5,8 @@ import {Provider} from 'react-redux';
 import createSagaMiddleware from 'redux-saga'
 
 import {rootReducer} from 'store/reducers';
-import getPictures from 'store/sagas/getPictures';
-import postPicture from 'store/sagas/postPicture';
-import App from 'App';
+import watchSagas from 'store/sagas';
+import App from 'components/App';
 import 'styles/normalize.css';
 import 'styles/style.css';
 
@@ -18,8 +17,7 @@ const store = createStore(
   applyMiddleware(sagaMiddleware)
 );
 
-sagaMiddleware.run(getPictures);
-sagaMiddleware.run(postPicture);
+sagaMiddleware.run(watchSagas);
 
 ReactDOM.render(
   <Provider

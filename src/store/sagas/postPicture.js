@@ -1,10 +1,9 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 
-import {POST_PICTURE} from 'store/actions/actionTypes';
 import {postPictureStart, postPictureSuccess, postPictureError} from 'store/actions/pictureFetch';
 
 
-function* postPictureAsync(action) {
+export default function* postPictureAsync(action) {
   try {
     const payload = action.payload;
 
@@ -29,8 +28,4 @@ function* postPictureAsync(action) {
   } catch (error) {
     yield put(postPictureError());
   }
-}
-
-export default function* watchPostPicture() {
-  yield takeEvery(POST_PICTURE, postPictureAsync);
 }

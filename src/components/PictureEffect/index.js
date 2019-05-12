@@ -1,7 +1,8 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {setPictureEffect} from 'store/actions/setPictureData';
+import pictureEffect from './pictureEffect';
 
 
 class PictureEffect extends Component {
@@ -13,18 +14,16 @@ class PictureEffect extends Component {
 
   render = () => {
     const defaultChecked = this.props.name === 'none' ? true : false;
+    const {effect, name, title, subtitle} = this.props;
 
-    return (
-      <label className={`effects__label ${this.props.effect === this.props.name ? 'effects__label--active' : ''}`}>
-        <input type='radio' className='effects__radio visually-hidden' name='effect' value={this.props.name} defaultChecked={defaultChecked} onChange={this.onInputChange} />
-
-        <div className={`effects__preview effects__preview--${this.props.name}`}>
-          {this.props.subtitle}
-        </div>
-
-        {this.props.title}
-      </label>
-    );
+    return pictureEffect({
+      name,
+      title,
+      subtitle,
+      isActive: effect === name,
+      onInputChange: this.onInputChange,
+      defaultChecked
+    });
   }
 }
 

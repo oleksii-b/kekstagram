@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 
 import {setActivePicture} from 'store/actions/pictureFetch';
+import pictureMini from './pictureMini';
 
 
 class PictureMini extends Component {
@@ -15,7 +16,7 @@ class PictureMini extends Component {
     this.url = `https://github.com/oleksii-b/kekstagram/blob/master/assets/img/${this.props.data.url}?raw=true`;
   }
 
-  onPictureLinkClick = (evt) => {
+  setActivePicture = (evt) => {
     evt.preventDefault();
     this.props.setActivePicture({
       ...this.props.data,
@@ -26,15 +27,11 @@ class PictureMini extends Component {
   render = () => {
     const picture = this.props.data;
 
-    return (
-      <a href={picture.url} className='picture' onClick={this.onPictureLinkClick}>
-        <img className='picture__img' src={this.url} width='182' height='182' alt={picture.description} />
-        <p className='picture__info'>
-          <span className='picture__comments'>{picture.comments.length}</span>
-          <span className='picture__likes'>{picture.likes}</span>
-        </p>
-      </a>
-    );
+    return pictureMini({
+      picture,
+      url: this.url,
+      setActivePicture: this.setActivePicture
+    });
   }
 }
 

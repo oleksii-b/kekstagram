@@ -1,4 +1,4 @@
-import * as types from './actionTypes';
+import * as types from 'store/actionTypes';
 
 
 export function setDefaultValues() {

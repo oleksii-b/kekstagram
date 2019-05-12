@@ -1,4 +1,4 @@
-import * as types from 'store/actions/actionTypes';
+import * as types from 'store/actionTypes';
 
 
 const initialState = {

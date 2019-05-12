@@ -1,14 +1,7 @@
-import * as types from './actionTypes';
+import {createAction} from 'redux-actions';
+
+import * as types from 'store/actionTypes';
 
 
-export function pictureEditorHide() {
-  return {
-    type: types.PICTURE_EDITOR_HIDE
-  }
-}
-
-export function pictureEditorShow() {
-  return {
-    type: types.PICTURE_EDITOR_SHOW
-  }
-}
+export const pictureEditorHide = createAction(types.PICTURE_EDITOR_HIDE);
+export const pictureEditorShow = createAction(types.PICTURE_EDITOR_SHOW);

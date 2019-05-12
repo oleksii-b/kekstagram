@@ -1,10 +1,9 @@
-import {call, put, takeEvery} from 'redux-saga/effects';
+import {call, put} from 'redux-saga/effects';
 
-import {GET_PICTURES} from 'store/actions/actionTypes';
 import {getPicturesStart, getPicturesSuccess, getPicturesError} from 'store/actions/getPictures';
 
 
-function* getPicturesAsync(action) {
+export default function* getPicturesAsync(action) {
   try {
     getPicturesStart();
 
@@ -19,8 +18,4 @@ function* getPicturesAsync(action) {
   } catch (error) {
     yield put(getPicturesError());
   }
-}
-
-export default function* watchGetPictures() {
-  yield takeEvery(GET_PICTURES, getPicturesAsync);
 }

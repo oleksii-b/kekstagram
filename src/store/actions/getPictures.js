@@ -1,6 +1,6 @@
 import {createAction} from 'redux-actions';
 
-import * as types from './actionTypes';
+import * as types from 'store/actionTypes';
 
 
 export const getPictures = createAction(types.GET_PICTURES);

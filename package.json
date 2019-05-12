@@ -2,8 +2,8 @@
   "name": "kekstagram",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --debug --hot --inline --colors --env dev --mode development",
-    "build": "webpack -p --env build --mode production",
+    "start": "webpack-dev-server --debug --hot --inline --colors --env dev",
+    "build": "webpack -p --env build",
     "test": "jest",
     "test-update": "jest --updateSnapshot",
     "deploy": "firebase deploy"
@@ -18,7 +18,8 @@
     "redux": "^4.0.1",
     "redux-actions": "^2.6.4",
     "redux-form": "^8.1.0",
-    "redux-saga": "^1.0.2"
+    "redux-saga": "^1.0.2",
+    "styled-components": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
