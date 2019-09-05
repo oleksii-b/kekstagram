@@ -1,3 +1,4 @@
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
@@ -7,7 +8,7 @@ const path = require('path');
 const bundleFileName = 'bundle.js';
 const cssLoaders = [
   {
-    loader: 'css-loader'
+    loader: 'css-loader',
   }, {
     loader: 'postcss-loader',
     options: {
@@ -15,12 +16,12 @@ const cssLoaders = [
         autoprefixer({
           browsers: [
             'ie >= 8',
-            'last 3 version'
-          ]
-        })
-      ]
-    }
-  }
+            'last 3 version',
+          ],
+        }),
+      ],
+    },
+  },
 ];
 
 
@@ -28,59 +29,50 @@ module.exports = (env) => {
   const common = {
     entry: [
       'babel-polyfill',
-      'index.js'
+      'index.js',
     ],
 
     output: {
       path: path.join(__dirname, '/build'),
       publicPath: (env === 'build') ? '' : '/',
-      filename: (env === 'build') ? `js/${bundleFileName}` : bundleFileName
+      filename: (env === 'build') ? `js/${bundleFileName}` : bundleFileName,
     },
 
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: 'public/index.html'
-      })
+        template: 'public/index.html',
+      }),
     ],
 
     resolve: {
       modules: [
         'node_modules',
-        'src'
+        'src',
       ],
       extensions: [
         '.js',
-        '.css'
-      ]
+        '.css',
+      ],
     },
 
     module: {
       rules: [
         {
           test: /\.js$/,
-          exclude: /(node_modules)/,
+          exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
-            options: {
-              presets: [
-                '@babel/preset-env',
-                '@babel/preset-react'
-              ],
-              plugins: [
-                '@babel/plugin-proposal-class-properties'
-              ]
-            }
           }
         }, {
-          test: /(fonts)/,
-          exclude: /(node_modules)/,
-          loader: (env === 'build') ? 'url-loader?limit=1024&name=fonts/[name].[ext]' : 'file-loader'
+          test: /fonts/,
+          exclude: /node_modules/,
+          loader: (env === 'build') ? 'url-loader?limit=1024&name=fonts/[name].[ext]' : 'file-loader',
         }, {
-          test: /(img)/,
-          exclude: /(node_modules)/,
-          loader: (env === 'build') ? 'url-loader?limit=10000&name=img/[name].[ext]' : 'file-loader'
-        }
+          test: /img/,
+          exclude: /node_modules/,
+          loader: (env === 'build') ? 'url-loader?limit=10000&name=img/[name].[ext]' : 'file-loader',
+        },
       ]
     }
   };
@@ -90,10 +82,14 @@ module.exports = (env) => {
       return merge([
         common,
         {
+          plugins: [
+            new HardSourceWebpackPlugin(),
+          ],
+
           devServer: {
             historyApiFallback: true,
             port: 8800,
-            publicPath: '/'
+            publicPath: '/',
           },
 
           devtool: 'inline-source-map',
@@ -102,16 +98,16 @@ module.exports = (env) => {
             rules: [
               {
                 test: /\.css$/,
-                exclude: /(node_modules?!(\/rc-slider))/,
+                exclude: /node_modules?!(\/rc-slider)/,
                 use: [
                   {
-                    loader: 'style-loader'
+                    loader: 'style-loader',
                   },
                   ...cssLoaders
-                ]
+                ],
               }
-            ]
-          }
+            ],
+          },
         }
       ]);
     case 'build':
@@ -120,28 +116,28 @@ module.exports = (env) => {
         {
           plugins: [
             new MiniCssExtractPlugin({
-              filename: 'css/[name].css'
-            })
+              filename: 'css/[name].css',
+            }),
           ],
 
           module: {
             rules: [
               {
                 test: /\.css$/,
-                exclude: /(node_modules?!(\/rc-slider))/,
+                exclude: /node_modules?!(\/rc-slider)/,
                 use: [
                   {
                     loader: MiniCssExtractPlugin.loader,
                     options: {
                       publicPath: '../',
-                      fallback: 'style-loader'
+                      fallback: 'style-loader',
                     }
                   },
                   ...cssLoaders,
-                ]
+                ],
               }
-            ]
-          }
+            ],
+          },
         }
       ]);
   }

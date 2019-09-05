@@ -2,7 +2,8 @@ import * as types from 'store/actionTypes';
 
 
 const initialState = {
-  isHidden: true
+  isHidden: true,
+  isUploading: false,
 };
 
 export default function pictureEditorReducer(state = initialState, action) {
@@ -10,14 +11,19 @@ export default function pictureEditorReducer(state = initialState, action) {
     case types.PICTURE_EDITOR_HIDE:
       return {
         ...state,
-        isHidden: true
+        isHidden: true,
       }
     case types.PICTURE_EDITOR_SHOW:
       return {
         ...state,
-        isHidden: false
+        isHidden: false,
+      }
+    case types.UPLOADING_STATUS:
+      return {
+        ...state,
+        isUploading: action.payload,
       }
     default:
-      return state
+      return state;
   }
-}
+};

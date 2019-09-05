@@ -1,78 +1,80 @@
-import React, {Component, Fragment} from 'react';
+import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {resetFetchStatus} from 'store/actions/pictureFetch';
-import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
+import {pictureEditorHide, pictureEditorShow, setUploadingStatus} from 'store/actions/pictureEditor';
 import {setDefaultValues} from 'store/actions/setPictureData';
-import {uploadPicture} from 'services/utils';
-import successDialog from './successDialog';
-import errorDialog from './errorDialog';
-import loadingDialog from './loadingDialog';
+import SuccessDialog from './SuccessDialog';
+import ErrorDialog from './ErrorDialog';
+import LoadingDialog from './LoadingDialog';
 
 
-class DialogMessages extends Component {
-  componentWillReceiveProps = (nextProps) => {
+class DialogMessages extends React.Component {
+  static getDerivedStateFromProps = (nextProps) => {
     if (nextProps.isLoaded || nextProps.isLoading) {
-      this.props.pictureEditorHide();
+      nextProps.pictureEditorHide();
     }
-  }
 
-  onTryAgainBtnClick = () => {
+    return null;
+  };
+
+  fetchAgain = () => {
     this.props.resetFetchStatus();
     this.props.pictureEditorShow();
-  }
+  };
 
-  onUploadAnotherFileBtnClick = () => {
+  uploadAnotherFile = () => {
     this.props.resetFetchStatus();
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
-    uploadPicture();
-  }
+    this.props.setUploadingStatus(true);
+  };
 
   render() {
     const {isLoading, isLoaded, resetFetchStatus} = this.props;
 
     return (
-      <Fragment>
-        {
-          errorDialog({
-            isLoaded,
-            onTryAgainBtnClick: this.onTryAgainBtnClick,
-            onUploadAnotherFileBtnClick: this.onUploadAnotherFileBtnClick
-          })
-        }
+      <>
+        <ErrorDialog
+          isLoaded={isLoaded}
+          fetchAgain={this.fetchAgain}
+          uploadAnotherFile={this.uploadAnotherFile}
+        />
 
-        {
-          successDialog({
-            isLoaded,
-            resetFetchStatus
-          })
-        }
+        <SuccessDialog
+          isLoaded={isLoaded}
+          resetFetchStatus={resetFetchStatus}
+        />
 
-        {
-          loadingDialog({
-            isLoading
-          })
-        }
-      </Fragment>
+        <LoadingDialog
+          isLoading={isLoading}
+        />
+      </>
     );
-  }
+  };
 };
 
 function mapStateToProps(state) {
+  const {isLoading, isLoaded} = state.pictureFetch;
+
   return {
-    isLoading: state.pictureFetch.isLoading,
-    isLoaded: state.pictureFetch.isLoaded
+    isLoading,
+    isLoaded,
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    resetFetchStatus: () => dispatch(resetFetchStatus()),
-    pictureEditorHide: () => dispatch(pictureEditorHide()),
-    pictureEditorShow: () => dispatch(pictureEditorShow()),
-    setDefaultValues: () => dispatch(setDefaultValues())
-  }
+  return bindActionCreators({
+    resetFetchStatus,
+    pictureEditorHide,
+    pictureEditorShow,
+    setDefaultValues,
+    setUploadingStatus,
+  }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DialogMessages);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DialogMessages);

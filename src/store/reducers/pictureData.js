@@ -2,46 +2,53 @@ import * as types from 'store/actionTypes';
 
 
 const initialState = {
-  url: null,
+  src: null,
   effect: 'none',
   effectLevel: 20,
   scale: 100,
   hashtags: '',
-  description: ''
+  description: '',
 };
 
 export default function pictureDataReducer(state = initialState, action) {
-  switch (action.type) {
+  const {type, payload} = action;
+
+  switch (type) {
+    case types.SET_PICTURE_SRC:
+      return {
+        ...state,
+        src: payload,
+      };
     case types.SET_PICTURE_EFFECT:
       return {
         ...state,
-        effect: action.payload
-      }
+        effect: payload,
+      };
     case types.SET_PICTURE_EFFECT_LEVEL:
       return {
         ...state,
-        effectLevel: action.payload
-      }
+        effectLevel: payload,
+      };
     case types.SET_PICTURE_SCALE:
       return {
         ...state,
-        scale: action.payload
-      }
+        scale: payload,
+      };
     case types.SET_PICTURE_HASHTAGS:
       return {
         ...state,
-        hashtags: action.payload
-      }
+        hashtags: payload,
+      };
     case types.SET_PICTURE_COMMENT:
       return {
         ...state,
-        description: action.payload
-      }
+        description: payload,
+      };
     case types.SET_DEFAULT_VALUES:
       return {
-        ...initialState
-      }
+        ...initialState,
+      };
     default:
-      return state
+      return state;
   }
-}
+};

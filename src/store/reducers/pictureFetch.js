@@ -2,11 +2,11 @@ import * as types from 'store/actionTypes';
 
 
 const initialState = {
-  all: [],
+  data: [],
   isLoading: false,
   isLoaded: null,
   error: null,
-  activePicture: {}
+  activePicture: null,
 };
 
 export default function pictureFetchReducer(state = initialState, action) {
@@ -14,36 +14,36 @@ export default function pictureFetchReducer(state = initialState, action) {
     case types.GET_PICTURES_SUCCESS:
       return {
         ...state,
-        all: action.payload
+        data: action.payload,
       }
     case types.FETCH_PICTURE_START:
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
       }
     case types.FETCH_PICTURE_SUCCESS:
       return {
         ...state,
         isLoading: false,
-        isLoaded: true
+        isLoaded: true,
       }
     case types.FETCH_PICTURE_ERROR:
       return {
         ...state,
         isLoading: false,
-        isLoaded: false
+        isLoaded: false,
       }
     case types.RESET_FETCH_STATUS:
       return {
         ...state,
-        isLoaded: null
+        isLoaded: null,
       }
     case types.SET_ACTIVE_PICTURE:
       return {
         ...state,
-        activePicture: action.payload
+        activePicture: action.payload,
       }
     default:
       return state
   }
-}
+};

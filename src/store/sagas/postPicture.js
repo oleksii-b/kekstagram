@@ -1,12 +1,14 @@
 import {call, put} from 'redux-saga/effects';
 
-import {postPictureStart, postPictureSuccess, postPictureError} from 'store/actions/pictureFetch';
+import {
+  postPictureStart,
+  postPictureSuccess,
+  postPictureError
+} from 'store/actions/pictureFetch';
 
 
 export default function* postPictureAsync(action) {
   try {
-    const payload = action.payload;
-
     postPictureStart();
 
     const response = yield call(
@@ -14,11 +16,11 @@ export default function* postPictureAsync(action) {
       'https://js.dump.academy/kekstagram',
       {
         method: 'POST',
-        body: payload
+        body: action.payload
       }
     );
 
-    const data =  yield call([response, 'json']);
+    const data = yield call([response, 'json']);
 
     if (data instanceof Array) {
       yield put(postPictureError());
@@ -28,4 +30,4 @@ export default function* postPictureAsync(action) {
   } catch (error) {
     yield put(postPictureError());
   }
-}
+};

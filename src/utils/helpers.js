@@ -1,8 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
-
-
-const getEffectLevelValue = ({effectName, effectLevel}) => {
+export const getEffectLevelValue = ({effectName, effectLevel}) => {
   switch (effectName) {
     case 'chrome':
       // grayscale(0...1)
@@ -22,10 +18,6 @@ const getEffectLevelValue = ({effectName, effectLevel}) => {
   }
 };
 
-const PicturePreview = styled.img`
-  -webkit-filter: ${(props) => getEffectLevelValue(props)};
-  filter: ${(props) => getEffectLevelValue(props)};
-  transform: scale(${(props) => props.scale / 100});
-`;
-
-export default PicturePreview;
+export function toggleBodyOverflow(option) {
+  document.body.style.overflow = option;
+};

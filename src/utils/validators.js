@@ -1,6 +1,4 @@
 export function correctHashtag(value) {
-  let status = {};
-
   if (typeof value === 'string') {
     const hashtags = value.trim().split(' ');
 
@@ -10,4 +8,4 @@ export function correctHashtag(value) {
       }
     }
   }
-}
+};

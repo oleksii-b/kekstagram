@@ -1,28 +1,60 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as d3 from 'd3-fetch';
 
-import {toggleBodyOverflow} from 'services/utils';
-import pictureDetails from './pictureDetails';
+import {setActivePicture} from 'store/actions/pictureFetch';
+import {toggleBodyOverflow} from 'utils/helpers';
+import PictureInfo from './PictureInfo';
+import Comments from './Comments';
 
 
 const initialState = {
-  isHidden: true,
   isLoadCommentBtnHidden: false,
-  visibleCommentSize: 0,
+  numberOfVisibleComments: 0,
   data: {
-    comments: []
-  }
+    url: null,
+    comments: [],
+  },
 };
 
-class PictureDetails extends Component {
+class PictureDetails extends React.Component {
   state = {
-    ...initialState
-  }
+    ...initialState,
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {activePicture} = nextProps;
+
+    if (activePicture) {
+      const numberOfComments = activePicture.comments.length;
+
+      let {numberOfVisibleComments} = prevState;
+
+      if (!numberOfVisibleComments) {
+        numberOfVisibleComments = numberOfComments < 5 ? numberOfComments : 5;
+      }
+
+      toggleBodyOverflow('hidden');
+
+      return {
+        ...initialState,
+        numberOfVisibleComments,
+        isLoadCommentBtnHidden: numberOfComments <= numberOfVisibleComments,
+        data: activePicture,
+      };
+    }
+
+    return {
+      ...initialState,
+    };
+  };
+
+  overlayRef = React.createRef();
 
   componentDidMount = () => {
     window.addEventListener('click', (evt) => {
-      if (evt.target === this.refs.overlay) {
+      if (evt.target === this.overlayRef.current) {
         this.hideDialog();
       }
     });
@@ -32,7 +64,7 @@ class PictureDetails extends Component {
         this.hideDialog();
       }
     });
-  }
+  };
 
   componentDidUpdate = () => {
     for (let avatarContainer of document.querySelectorAll('[data-avatar]')) {
@@ -43,65 +75,82 @@ class PictureDetails extends Component {
           avatarContainer.innerHTML = oSerializer.serializeToString(data);
         });
     }
-  }
-
-  componentWillReceiveProps = (nextProps, nextState) => {
-    if (nextProps.activePicture.url) {
-      const commentsSize = nextProps.activePicture.comments.length;
-
-      toggleBodyOverflow('hidden');
-      this.setState({
-        ...this.initialState,
-        visibleCommentSize: commentsSize < 5 ? commentsSize : 5,
-        isLoadCommentBtnHidden: commentsSize < 5 ? true : nextState.isLoadCommentBtnHidden,
-        isHidden: false,
-        data: nextProps.activePicture
-      });
-    }
-  }
+  };
 
   hideDialog = () => {
-    this.refs.overlay.scrollTop = 0;
+    this.overlayRef.current.scrollTop = 0;
 
     toggleBodyOverflow('visible');
-    this.setState({
-      ...initialState
-    });
-  }
+    this.props.setActivePicture(null);
+  };
 
   loadMoreComments = () => {
-    let commentSize = this.state.data.comments.length,
-      visibleCommentSize = this.state.visibleCommentSize + 5;
+    let numberOfComments = this.state.data.comments.length;
+    let numberOfVisibleComments = this.state.numberOfVisibleComments + 5;
 
-    if (visibleCommentSize > commentSize) {
-      visibleCommentSize = commentSize;
+    if (numberOfVisibleComments > numberOfComments) {
+      numberOfVisibleComments = numberOfComments;
     }
 
     this.setState({
-      visibleCommentSize: visibleCommentSize,
-      isLoadCommentBtnHidden: commentSize <= visibleCommentSize
+      numberOfVisibleComments,
+      isLoadCommentBtnHidden: numberOfComments <= numberOfVisibleComments
     });
-  }
+  };
 
   render = () => {
-    const {isHidden, visibleCommentSize, isLoadCommentBtnHidden} = this.state;
-    const activePicture = this.state.data;
+    const {numberOfVisibleComments, isLoadCommentBtnHidden, data} = this.state;
+    const {url, description, likes, comments} = data;
 
-    return pictureDetails({
-      isHidden,
-      activePicture,
-      visibleCommentSize,
-      isLoadCommentBtnHidden,
-      hideDialog: this.hideDialog,
-      loadMoreComments: this.loadMoreComments
-    });
-  }
-}
+    return (
+      <section className={`big-picture overlay ${url ? '' : 'hidden'}`} ref={this.overlayRef}>
+        <h2 className='big-picture__title visually-hidden'>
+          Просмотр фотографии
+        </h2>
+
+        <div className='big-picture__preview'>
+          {/* Просмотр изображения */}
+          <div className='big-picture__img'>
+            <img src={url} alt='' width='600' height='600' />
+          </div>
+
+          {/* Информация об изображении. Подпись, комментарии, количество лайков */}
+          <PictureInfo
+            description={description}
+            numberOfLikes={likes}
+            isLoadCommentBtnHidden={isLoadCommentBtnHidden}
+            loadMoreComments={this.loadMoreComments}
+          >
+            {/* Комментарии к изображению */}
+            <Comments
+              listOfComments={comments}
+              numberOfVisibleComments={numberOfVisibleComments}
+            />
+          </PictureInfo>
+
+          {/* Кнопка для выхода из полноэкранного просмотра изображения */}
+          <button type='reset' className='big-picture__cancel cancel' onClick={this.hideDialog}>
+            Закрыть
+          </button>
+        </div>
+      </section>
+    );
+  };
+};
 
 function mapStateToProps(state) {
   return {
-    activePicture: state.pictureFetch.activePicture
-  }
-}
+    activePicture: state.pictureFetch.activePicture,
+  };
+};
 
-export default connect(mapStateToProps)(PictureDetails);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    setActivePicture,
+  }, dispatch);
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PictureDetails);

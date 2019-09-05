@@ -1,75 +1,111 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {getPictures} from 'store/actions/getPictures';
-import {pictureEditorHide, pictureEditorShow} from 'store/actions/pictureEditor';
+import {pictureEditorHide} from 'store/actions/pictureEditor';
 import {setDefaultValues} from 'store/actions/setPictureData';
-import pictureList from './pictureList';
+import PictureUploadForm from 'components/PictureUploadForm';
+import PictureMini from 'components/PictureMini';
 
 
-class PictureList extends Component {
+class PictureList extends React.Component {
   state = {
-    pictures: []
-  }
+    pictures: [],
+  };
 
-  componentDidMount = () => {
-    this.props.fetchPictures();
-  }
-
-  componentWillReceiveProps = (nextProps) => {
+  static getDerivedStateFromProps = (nextProps) => {
     if (typeof nextProps.isLoaded === 'boolean') {
       if (nextProps.isLoaded) {
-        this.props.setDefaultValues();
+        nextProps.setDefaultValues();
       }
 
-      this.props.pictureEditorHide();
+      nextProps.pictureEditorHide();
     }
 
-    this.setState({
-      pictures: nextProps.pictures
-    });
-  }
+    let pictures = [...nextProps.pictures];
 
-  onUploaderValueChange = (evt) => {
-    const input = evt.target;
+    if (pictures.length) {
+      const search = nextProps.location.search.slice(1);
 
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
+      if (search === 'popular') {
+        pictures = pictures.sort((prevItem, nextItem) =>
+          nextItem.likes - prevItem.likes
+        );
+      }
 
-      reader.addEventListener('load', (evt) => {
-        this.props.pictureEditorShow();
-        this.setState({
-          picture: evt.target.result
-        });
-      });
-
-      reader.readAsDataURL(input.files[0]);
+      if (search === 'most-commented') {
+        pictures = pictures.sort((prevItem, nextItem) =>
+          nextItem.comments.length - prevItem.comments.length
+        );
+      }
     }
-  }
 
-  render = () => pictureList({
-    picture: this.state.picture,
-    pictures: this.state.pictures,
-    onUploaderValueChange: this.onUploaderValueChange
-  })
+    return {
+      pictures,
+    };
+  };
+
+  componentDidMount = () => {
+    this.props.getPictures();
+  };
+
+  render = () => {
+    const {pictures} = this.state;
+
+    return (
+      <section className='pictures container'>
+        <h2 className='pictures__title visually-hidden'>
+          Фотографии других пользователей
+        </h2>
+
+        {/* Поле для загрузки нового изображения на сайт */}
+        <section className='img-upload'>
+          <div className='img-upload__wrapper'>
+            <h2 className='img-upload__title visually-hidden'>
+              Загрузка фотографии
+            </h2>
+
+            <PictureUploadForm />
+          </div>
+        </section>
+
+        {
+          !!pictures.length
+          &&
+            pictures.map((picture) => {
+              return (
+                <PictureMini
+                  key={picture.url}
+                  data={picture}
+                />
+              );
+            })
+        }
+      </section>
+    );
+  };
 };
 
 function mapStateToProps(state) {
+  const {data, isLoading, isLoaded} = state.pictureFetch;
+
   return {
-    pictures: state.pictureFetch.all,
-    isLoading: state.pictureFetch.isLoading,
-    isLoaded: state.pictureFetch.isLoaded,
-    hashtags: state.pictureData.hashtags
+    isLoading,
+    isLoaded,
+    pictures: data,
+    hashtags: state.pictureData.hashtags,
   }
 }
-
 function mapDispatchToProps(dispatch) {
-  return {
-    fetchPictures: () => dispatch(getPictures()),
-    pictureEditorHide: () => dispatch(pictureEditorHide()),
-    pictureEditorShow: () => dispatch(pictureEditorShow()),
-    setDefaultValues: () => dispatch(setDefaultValues())
-  }
+  return bindActionCreators({
+    getPictures,
+    pictureEditorHide,
+    setDefaultValues,
+  }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PictureList);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PictureList);

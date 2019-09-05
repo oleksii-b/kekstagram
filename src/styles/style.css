@@ -2,18 +2,18 @@
    ========================================================================== */
 
 @font-face {
-  font-family: "Open Sans";
-  src: url("../fonts/OpenSansCondensed-Bold.woff2") format("woff2"),
-      url("../fonts/OpenSansCondensed-Bold.woff") format("woff");
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSansCondensed-Bold.woff2') format('woff2'),
+      url('../fonts/OpenSansCondensed-Bold.woff') format('woff');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Open Sans";
-  src: url("../fonts/OpenSans-Regular.woff2") format("woff2"),
-      url("../fonts/OpenSans-Regular.woff") format("woff");
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular.woff2') format('woff2'),
+      url('../fonts/OpenSans-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -27,11 +27,11 @@
 }
 
 body {
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #ffffff;
+  color: #fff;
 
   background-color: #232321;
 }
@@ -102,7 +102,7 @@ main {
   font-size: 0;
 
   background-color: rgba(255, 255, 255, 0.2);
-  background-image: url("../img/icon-cross.svg");
+  background-image: url('../img/icon-cross.svg');
   background-position: center;
   background-repeat: no-repeat;
 
@@ -165,10 +165,12 @@ main {
 .img-filters__button {
   padding: 5px 15px;
 
-  font-family: "Open Sans", "Arial", sans-serif;
+  color: #fff;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: auto;
+  text-decoration: none;
   text-transform: uppercase;
 
   cursor: pointer;
@@ -179,15 +181,17 @@ main {
 .img-filters__button:active,
 .img-filters__button--active {
   color: #ff4e4e;
+}
 
-  background-color: #ffffff;
+.img-filters__button--active {
+  background-color: #fff;
   border-radius: 2px;
 }
 
 .img-filters__label {
   padding: 5px 15px;
 
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 700;
   font-size: 18px;
   line-height: auto;
@@ -196,14 +200,14 @@ main {
 }
 
 .img-filters__radio:focus + .img-filters__label {
-  outline: auto 5px rgb(181, 213, 255);
+  outline: auto 5px highlight;
 }
 
 .img-filters__radio:checked + .img-filters__label {
   color: #ff4e4e;
   text-decoration: none;
 
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 2px;
 }
 
@@ -260,9 +264,9 @@ main {
   padding-left: 30px;
   position: relative;
 
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 400;
-  color: #ffffff;
+  color: #fff;
 }
 
 .picture__comments {
@@ -271,12 +275,12 @@ main {
 
 .picture__comments::before,
 .picture__likes::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 5px;
   top: -7px;
 
-  background-image: url("../img/sprite.png");
+  background-image: url('../img/sprite.png');
   background-repeat: no-repeat;
 }
 
@@ -318,7 +322,7 @@ main {
   min-height: 569px;
 
   background-color: #eed21e;
-  background-image: url("../img/logo-background-1.jpg");
+  background-image: url('../img/logo-background-1.jpg');
   background-repeat: no-repeat;
   background-position: center;
 
@@ -332,7 +336,7 @@ main {
   padding: 0;
   min-height: 569px;
 
-  background-image: url("../img/logo-mask.png");
+  background-image: url('../img/logo-mask.png');
   background-repeat: no-repeat;
   background-position: center;
 
@@ -350,7 +354,7 @@ main {
 
   font-size: 0;
 
-  background-image: url("../img/upload-button-bg.png");
+  background-image: url('../img/upload-button-bg.png');
   background-repeat: no-repeat;
   background-position: center;
 
@@ -358,7 +362,7 @@ main {
 }
 
 .img-upload__label::after {
-  content: "";
+  content: '';
   position: absolute;
 
   top: 32px;
@@ -367,7 +371,7 @@ main {
   width: 86px;
   height: 114px;
 
-  background-image: url("../img/upload-button.svg");
+  background-image: url('../img/upload-button.svg');
   background-repeat: no-repeat;
   background-position: center;
 
@@ -409,7 +413,7 @@ main {
   left: 50%;
   z-index: 1;
 
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 400;
 
   -webkit-transform: translateX(-50%);
@@ -456,14 +460,14 @@ main {
 }
 
 .scale__control--smaller::before {
-  content: "–";
+  content: '–';
   position: absolute;
   top: 50%;
   left: 50%;
 
   font-size: 20px;
   line-height: 0;
-  color: #ffffff;
+  color: #fff;
 
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
@@ -474,7 +478,7 @@ main {
   width: 60px;
 
   font-size: 16px;
-  color: #ffffff;
+  color: #fff;
 
   border: solid rgba(255, 255, 255, 0.5);
   border-width: 0 2px;
@@ -485,14 +489,14 @@ main {
 }
 
 .scale__control--bigger::before {
-  content: "+";
+  content: '+';
   position: absolute;
   top: 50%;
   left: 50%;
 
   font-size: 20px;
   line-height: 0;
-  color: #ffffff;
+  color: #fff;
 
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
@@ -518,7 +522,7 @@ main {
   width: 600px;
   height: 600px;
 
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 .img-upload__preview img {
@@ -543,7 +547,7 @@ main {
   font-size: 12px;
   line-height: 42px;
   text-align: center;
-  color: #ffffff;
+  color: #fff;
   white-space: nowrap;
   padding: 8px 18px;
 
@@ -592,21 +596,15 @@ main {
 }
 
 .effects__item {
-  border: 1px solid transparent;
-  border-radius: 5px;
-  padding: 2px;
-  margin-right: 5px;
-}
-
-.effects__item.effects__item--active {
-  border-color: #aaa;
+  margin: 0 2px;
 }
 
 .effects__label {
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-weight: 700;
-
   cursor: pointer;
+  display: block;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 700;
+  padding: 5px;
 }
 
 .effects__label:hover,
@@ -615,24 +613,25 @@ main {
   color: #ffe753;
 }
 
+.effects__label.effects__label--active {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+}
+
 .effects__preview {
+  background-color: #314359;
+  background-image: url('../img/upload-default-image.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  border-radius: 5px;
+  border: solid 5px transparent;
   display: block;
-  width: 70px;
+  font-size: 0;
   height: 70px;
   margin-bottom: 5px;
-
   overflow: hidden;
-
-  font-size: 0;
-
-  background-color: #314359;
-  background-image: url("../img/upload-default-image.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 100% auto;
-
-  border: solid 5px transparent;
-  border-radius: 5px;
+  width: 70px;
 }
 
 .effects__preview:last-of-type {
@@ -664,16 +663,13 @@ main {
 }
 
 .text__hashtags {
-  width: 100%;
-
+  border-radius: 5px;
+  color: #000;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
   margin: 0 auto;
   padding: 5px 10px;
-
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-weight: 400;
-  color: #000000;
-
-  border-radius: 5px;
+  width: 100%;
 }
 
 .text__hashtags--error {
@@ -682,17 +678,14 @@ main {
 }
 
 .text__description {
-  width: 100%;
+  border-radius: 5px;
+  color: #000;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
   height: 100px;
-
   margin: 0 auto;
   padding: 15px 10px;
-
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-weight: 400;
-  color: #000000;
-
-  border-radius: 5px;
+  width: 100%;
 }
 
 
@@ -706,7 +699,7 @@ main {
   border: 0;
   color: #ffe753;
   display: block;
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 700;
   margin: 0 auto;
   padding: 10px 20px;
@@ -782,12 +775,12 @@ main {
 
   max-width: 600px;
 
-  color: #000000;
-  font-family: "Open Sans", "Arial", sans-serif;
+  color: #000;
+  font-family: 'Open Sans', Arial, sans-serif;
   font-weight: 400;
   text-transform: none;
 
-  background-color: #ffffff;
+  background-color: #fff;
 }
 
 
@@ -845,7 +838,7 @@ main {
 }
 
 .likes-count::before {
-  content: "";
+  content: '';
   position: absolute;
 
   top: 3px;
@@ -854,7 +847,7 @@ main {
   width: 20px;
   height: 18px;
 
-  background-image: url("../img/sprite.png");
+  background-image: url('../img/sprite.png');
   background-repeat: no-repeat;
 
   background-position: -5px -56px;
@@ -939,7 +932,7 @@ main {
 
 .spinner::after,
 .comments-loader:active::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 200px;
   top: 7px;
@@ -1032,7 +1025,7 @@ main {
 
   font-size: 0;
 
-  background-image: url("../img/sprite.png");
+  background-image: url('../img/sprite.png');
   background-repeat: no-repeat;
   background-position: -5px -106px;
 
@@ -1095,7 +1088,7 @@ main {
 }
 
 .copyright__link--text {
-  color: #ffffff;
+  color: #fff;
 }
 
 .copyright__link--text:hover,
@@ -1131,7 +1124,7 @@ main {
 
   font-size: 0;
 
-  background-image: url("../img/sprite.png");
+  background-image: url('../img/sprite.png');
   background-repeat: no-repeat;
 
   opacity: 0.6;
@@ -1194,7 +1187,7 @@ main {
   justify-content: center;
   align-items: center;
 
-  font-family: "Open Sans", "Arial", sans-serif;
+  font-family: 'Open Sans', Arial, sans-serif;
   text-align: center;
   font-weight: 700;
   font-size: 20px;
@@ -1226,7 +1219,7 @@ main {
 }
 
 .error__title::before {
-  content: "";
+  content: '';
   position: absolute;
 
   width: 59px;
@@ -1235,7 +1228,7 @@ main {
   top: -100px;
   left: 50%;
 
-  background-image: url("../img/icon-warning.svg");
+  background-image: url('../img/icon-warning.svg');
 
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
@@ -1246,11 +1239,11 @@ main {
 .success__button {
   padding: 5px 10px;
 
-  color: #ffffff;
+  color: #fff;
   text-transform: uppercase;
 
   background: transparent;
-  border: 2px solid #ffffff;
+  border: 2px solid #fff;
   border-radius: 5px;
 }
 
@@ -1275,7 +1268,7 @@ main {
 }
 
 .loading__inner::before {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 60px;
   left: 50%;
@@ -1291,7 +1284,7 @@ main {
 }
 
 .loading__inner::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 60px;
   left: 50%;
