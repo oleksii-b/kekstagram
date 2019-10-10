@@ -1,11 +1,12 @@
+const path = require('path');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
-const merge = require('webpack-merge');
-const path = require('path');
 
-const bundleFileName = 'bundle.js';
+const bundleFileName = '[name].js';
 const cssLoaders = [
   {
     loader: 'css-loader',
@@ -24,13 +25,12 @@ const cssLoaders = [
   },
 ];
 
-
 module.exports = (env) => {
   const common = {
-    entry: [
-      'babel-polyfill',
-      'index.js',
-    ],
+    entry: {
+      'polyfills': 'babel-polyfill',
+      'main': 'index.js',
+    },
 
     output: {
       path: path.join(__dirname, '/build'),
@@ -48,12 +48,20 @@ module.exports = (env) => {
     resolve: {
       modules: [
         'node_modules',
+        'public',
         'src',
       ],
       extensions: [
         '.js',
         '.css',
+        '.less',
       ],
+    },
+
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+      },
     },
 
     module: {
@@ -63,6 +71,9 @@ module.exports = (env) => {
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+            },
           }
         }, {
           test: /fonts/,
@@ -82,14 +93,11 @@ module.exports = (env) => {
       return merge([
         common,
         {
-          plugins: [
-            new HardSourceWebpackPlugin(),
-          ],
-
           devServer: {
             historyApiFallback: true,
             port: 8800,
             publicPath: '/',
+            compress: false,
           },
 
           devtool: 'inline-source-map',
@@ -103,9 +111,25 @@ module.exports = (env) => {
                   {
                     loader: 'style-loader',
                   },
-                  ...cssLoaders
+                  ...cssLoaders,
                 ],
-              }
+              },
+              {
+                test: /\.less$/,
+                exclude: /node_modules/,
+                use: [
+                  {
+                    loader: 'style-loader'
+                  },
+                  ...cssLoaders,
+                  {
+                    loader: 'less-loader',
+                    options: {
+                      sourceMap: true
+                    }
+                  }
+                ]
+              },
             ],
           },
         }
@@ -135,7 +159,32 @@ module.exports = (env) => {
                   },
                   ...cssLoaders,
                 ],
-              }
+              },
+              {
+                test: /\.less$/,
+                exclude: /node_modules/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                      name: 'css/[name].css'
+                    },
+                  },
+                  {
+                    loader: 'extract-loader',
+                    options: {
+                      publicPath: '../',
+                    }
+                  },
+                  ...cssLoaders,
+                  {
+                    loader: 'less-loader',
+                    options: {
+                      sourceMap: true
+                    }
+                  }
+                ]
+              },
             ],
           },
         }

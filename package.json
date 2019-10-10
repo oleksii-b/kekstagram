@@ -9,6 +9,7 @@
     "deploy": "firebase deploy"
   },
   "dependencies": {
+    "classnames": "^2.2.6",
     "d3-fetch": "^1.1.2",
     "promise-polyfill": "^8.1.0",
     "rc-slider": "^8.6.4",
@@ -20,6 +21,7 @@
     "redux-actions": "^2.6.4",
     "redux-form": "^8.1.0",
     "redux-saga": "^1.0.2",
+    "reselect": "^4.0.0",
     "styled-components": "^4.2.0"
   },
   "devDependencies": {
@@ -38,11 +40,14 @@
     "css-loader": "^1.0.1",
     "eslint-config-airbnb": "^18.0.0",
     "eslint-config-prettier": "^6.0.0",
+    "extract-loader": "^3.1.0",
     "file-loader": "^2.0.0",
     "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^3.2.0",
     "img-loader": "^3.0.1",
-    "jest": "^24.1.0",
+    "jest": "^24.9.0",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.5.0",
     "postcss-loader": "^3.0.0",
     "prettier-eslint": "^9.0.0",

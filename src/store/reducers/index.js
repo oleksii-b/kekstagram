@@ -1,14 +1,18 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
 
-import pictureFetchReducer from './pictureFetch';
-import pictureEditorReducer from './pictureEditor';
-import pictureDataReducer from './pictureData';
+import pictureDetailsReducer from './picture-details';
+import pictureEditorReducer from './picture-editor';
+import pictureFormDataReducer from './picture-form-data';
+import picturePostRequestReducer from './picture-post-request';
+import picturesGetRequestReducer from './pictures-get-request';
 
 
 export const rootReducer = combineReducers({
-  pictureFetch: pictureFetchReducer,
+  pictureDetails: pictureDetailsReducer,
   pictureEditor: pictureEditorReducer,
-  pictureData: pictureDataReducer,
-  form: formReducer
+  pictureFormData: pictureFormDataReducer,
+  picturePostRequest: picturePostRequestReducer,
+  picturesGetRequest: picturesGetRequestReducer,
+  form: formReducer,
 });

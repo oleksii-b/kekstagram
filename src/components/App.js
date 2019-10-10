@@ -2,17 +2,19 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 
 import routes from 'components/routes';
-import NavBar from 'components/NavBar';
+import NavBar from 'components/nav-bar';
 
 
-const PictureList = React.lazy(() => import('components/PictureList'));
-const PictureDetails = React.lazy(() => import('components/PictureDetails'));
-const DialogMessages = React.lazy(() => import('components/DialogMessages'));
+const PictureList = React.lazy(() => import('components/picture-list'));
+const PictureDetails = React.lazy(() => import('components/picture-details'));
+const DialogMessages = React.lazy(() => import('components/dialog-messages'));
 
 export default function App() {
   return (
     <Router>
-      <NavBar />
+      <header>
+        <NavBar />
+      </header>
 
       <React.Suspense fallback={null}>
         <Switch>
