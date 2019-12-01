@@ -2,7 +2,8 @@
   "name": "kekstagram",
   "main": "src/index.js",
   "scripts": {
-    "start": "webpack-dev-server --debug --hot --colors --progress --env dev",
+    "start": "webpack-dev-server --debug --hot --colors --progress --env dev --mode development",
+    "vendor": "webpack -p --env vendor",
     "build": "webpack -p --env build",
     "test": "jest",
     "test-update": "jest --updateSnapshot",
@@ -42,7 +43,6 @@
     "eslint-config-prettier": "^6.0.0",
     "extract-loader": "^3.1.0",
     "file-loader": "^2.0.0",
-    "hard-source-webpack-plugin": "^0.13.1",
     "html-webpack-plugin": "^3.2.0",
     "img-loader": "^3.0.1",
     "jest": "^24.9.0",
