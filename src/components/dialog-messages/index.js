@@ -15,47 +15,49 @@ import LoadingDialog from './LoadingDialog';
 
 
 class DialogMessages extends React.Component {
-  static getDerivedStateFromProps = (nextProps) => {
-    if (nextProps.isLoaded || nextProps.isLoading) {
-      nextProps.pictureEditorHide();
-    }
-
-    return null;
-  };
-
+  state = {};
+  
   fetchAgain = () => {
     this.props.resetPostRequestStatus();
     this.props.pictureEditorShow();
   };
-
+  
   uploadAnotherFile = () => {
     this.props.resetPostRequestStatus();
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
     this.props.setUploadingStatus(true);
   };
-
+  
   render() {
     const {isLoading, isLoaded, resetPostRequestStatus} = this.props;
-
+    
     return (
       <>
         <ErrorDialog
           isLoaded={isLoaded}
           fetchAgain={this.fetchAgain}
           uploadAnotherFile={this.uploadAnotherFile}
-        />
+          />
 
         <SuccessDialog
           isLoaded={isLoaded}
           resetPostRequestStatus={resetPostRequestStatus}
-        />
+          />
 
         <LoadingDialog
           isLoading={isLoading}
-        />
+          />
       </>
     );
+  };
+
+  static getDerivedStateFromProps = (nextProps) => {
+    if (nextProps.isLoaded || nextProps.isLoading) {
+      nextProps.pictureEditorHide();
+    }
+
+    return null;
   };
 };
 

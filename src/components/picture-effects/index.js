@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 
 import {setPictureEffect} from 'store/actions';
 import PictureEffect from './picture-effect';
+import PictureEffectPreview from './picture-effect-preview';
 import effects from './effects';
 
 
@@ -13,7 +14,7 @@ class PictureEffects extends React.Component {
   };
 
   render = () => {
-    const {effect} = this.props;
+    const {effect, src} = this.props;
 
     return (
       <ul className="effects__list">
@@ -25,9 +26,17 @@ class PictureEffects extends React.Component {
                   effect={effect}
                   name={it}
                   title={effects[it].title}
-                  subtitle={effects[it].subtitle}
                   setEffect={this.setEffect}
-                />
+                >
+                  <PictureEffectPreview
+                    className="effect-preview"
+                    effectName={it}
+                    effectLevel={100}
+                    src={src}
+                  >
+                    {effects[it].subtitle}
+                  </PictureEffectPreview>
+                </PictureEffect>
               </li>
             );
           })
@@ -38,8 +47,11 @@ class PictureEffects extends React.Component {
 };
 
 function mapStateToProps(state) {
+  const {src, effect} = state.pictureFormData;
+
   return {
-    effect: state.pictureFormData.effect,
+    src,
+    effect,
   };
 };
 

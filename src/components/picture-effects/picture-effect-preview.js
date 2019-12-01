@@ -5,6 +5,7 @@ import {getEffectLevelValue} from 'utils/helpers';
 
 
 const PictureEffectPreview = styled.div`
+  background-image: url(${(props) => props.src});
   filter: ${(props) => getEffectLevelValue(props)};
 `;
 

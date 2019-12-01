@@ -6,7 +6,6 @@ import {reduxForm} from 'redux-form';
 import {
   postPicture,
   pictureEditorHide,
-  pictureEditorShow,
   setPictureSrc,
   setPictureHashtags,
   setPictureDescription,
@@ -49,8 +48,8 @@ class PictureUploadForm extends React.Component {
   componentDidMount = () => {
     this.props.initialize();
 
-    window.addEventListener('click', (evt) => {
-      if (evt.target === this.overlay) {
+    window.addEventListener('click', ({target}) => {
+      if (target === this.overlay) {
         this.resetPictureEditor();
       }
     });
@@ -151,7 +150,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     postPicture,
     pictureEditorHide,
-    pictureEditorShow,
     setPictureSrc,
     setPictureHashtags,
     setPictureDescription,

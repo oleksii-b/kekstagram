@@ -18,13 +18,7 @@ class PictureScale extends React.PureComponent {
     };
   };
 
-  static getDerivedStateFromProps(nextProps) {
-    if (scaleRef) {
-      scaleRef.value = `${nextProps.scale}%`;
-    }
-
-    return null;
-  };
+  state = {};
 
   componentDidMount = () => {
     scaleRef = this.scaleRef;
@@ -81,6 +75,14 @@ class PictureScale extends React.PureComponent {
       </button>
     </>
   );
+
+  static getDerivedStateFromProps(nextProps) {
+    if (scaleRef) {
+      scaleRef.value = `${nextProps.scale}%`;
+    }
+
+    return null;
+  };
 };
 
 function mapStateToProps(state) {

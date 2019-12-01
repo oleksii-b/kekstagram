@@ -6,42 +6,17 @@ import {
   getPictures,
   pictureEditorHide,
   setDefaultValues,
+  resetPostRequestStatus,
 } from 'store/actions';
 import {getPictuersSelector} from 'utils/selectors';
 import PictureUploadForm from 'components/picture-upload-form';
 import PictureMini from 'components/picture-mini';
 
 
-class PictureList extends React.Component {
+class PictureList extends React.PureComponent {
   state = {
     pictures: [],
-  };
-
-  static getDerivedStateFromProps = (nextProps) => {
-    if (typeof nextProps.isLoaded === 'boolean') {
-      if (nextProps.isLoaded) {
-        nextProps.setDefaultValues();
-      }
-
-      nextProps.pictureEditorHide();
-    }
-
-    const search = nextProps.location.search.slice(1);
-
-    let pictures = nextProps.pictures;
-
-    getPictuersSelector({
-      pictures,
-      sortBy: search,
-    });
-
-    if (search === 'new') {
-      pictures = [...nextProps.loadedPictures];
-    }
-
-    return {
-      pictures,
-    };
+    isPosting: false,
   };
 
   componentDidMount = () => {
@@ -83,6 +58,38 @@ class PictureList extends React.Component {
       </section>
     );
   };
+
+  static getDerivedStateFromProps = (nextProps, prevState) => {
+    let isPosting = false;
+
+    if (typeof nextProps.isLoaded === 'boolean' && !prevState.isPosting) {
+      if (nextProps.isLoaded) {
+        nextProps.setDefaultValues();
+      }
+
+      nextProps.pictureEditorHide();
+
+      isPosting = true;
+    }
+
+    const search = nextProps.location.search.slice(1);
+
+    let pictures = nextProps.pictures;
+
+    getPictuersSelector({
+      pictures,
+      sortBy: search,
+    });
+
+    if (search === 'new') {
+      pictures = [...nextProps.loadedPictures];
+    }
+
+    return {
+      pictures,
+      isPosting,
+    };
+  };
 };
 
 function mapStateToProps(state) {
@@ -103,6 +110,7 @@ function mapDispatchToProps(dispatch) {
     getPictures,
     pictureEditorHide,
     setDefaultValues,
+    resetPostRequestStatus,
   }, dispatch);
 };
 

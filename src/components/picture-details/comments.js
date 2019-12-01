@@ -8,7 +8,7 @@ export default function Comments({listOfComments, numberOfVisibleComments, loadM
   const numberOfComments = listOfComments.length;
 
   return (
-    <div class="Comments">
+    <div className="Comments">
       <div className='social__comment-count'>
         {numberOfVisibleComments} из <span className="comments-count">{numberOfComments}</span> комментариев
       </div>

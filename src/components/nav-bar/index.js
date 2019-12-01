@@ -25,6 +25,7 @@ class NavBar extends React.Component {
 
     return navBarRoutes.map((route) => (
       <NavLink
+        key={route.path}
         exact
         to={`${routes.images.path}${route.path}`}
         className={cx({
@@ -39,7 +40,7 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <nav class="NavBar container">
+      <nav className="NavBar container">
         {
           this.getLinks(routes.images.children)
         }

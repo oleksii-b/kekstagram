@@ -1,46 +1,53 @@
 import React from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import Slider, {createSliderWithTooltip} from 'rc-slider';
-import 'rc-slider/assets/index.css';
+import Slider from 'rc-slider';
 
 import {setPictureEffectLevel} from 'store/actions';
+import './index.less';
 
 
-const SliderWithTooltip = createSliderWithTooltip(Slider);
-
-class PictureEffectLevel extends React.Component {
+class PictureEffectLevel extends React.PureComponent {
   state = {
-    val: 20,
+    val: 0,
   };
 
-  static getDerivedStateFromProps(nextProps) {
-    return {
-      val: nextProps.effectLevel,
-    };
-  };
+  timeout = null;
 
   onSliderChange = (val) => {
-    this.props.setPictureEffectLevel(val);
+    this.setState({
+      val,
+    }, () => {
+      clearTimeout(this.timeout);
+
+      this.timeout = setTimeout(() => this.props.setPictureEffectLevel(val), 200);
+    });
   };
 
   render = () => {
     const {val} = this.state;
 
     return (
-      <>
+      <div className="PictureEffectLevel">
         <input
-          className="effect-level__value" type="number" name="effect-level"
-          value={val}
+          className="hidden"
+          type="number"
+          name="effect-level"
+          defaultValue={val}
         />
 
-        <SliderWithTooltip
-          value={val}
+        <Slider
+          defaultValue={val}
           onChange={this.onSliderChange}
-          tipFormatter={value => `${value}%`}
         />
-      </>
+      </div>
     );
+  };
+
+  static getDerivedStateFromProps(nextProps) {
+    return {
+      val: nextProps.effectLevel,
+    };
   };
 };
 
