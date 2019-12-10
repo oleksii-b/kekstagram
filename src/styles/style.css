@@ -211,7 +211,7 @@ main {
   left: 5px;
   top: -7px;
 
-  background-image: url('~img/sprite.png');
+  background-image: url('../assets/img/sprite.png');
   background-repeat: no-repeat;
 }
 
@@ -759,7 +759,7 @@ main {
 
   font-size: 0;
 
-  background-image: url('~img/sprite.png');
+  background-image: url('../assets/img/sprite.png');
   background-repeat: no-repeat;
 
   opacity: 0.6;

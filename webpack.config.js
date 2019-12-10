@@ -6,10 +6,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 const bundleFileName = '[name].js';
-const cssLoaders = [
+const styleLoaders = [
   {
     loader: 'css-loader',
-  }, {
+  },
+  {
     loader: 'postcss-loader',
     options: {
       plugins: [
@@ -22,6 +23,12 @@ const cssLoaders = [
       ],
     },
   },
+  {
+    loader: 'less-loader',
+    options: {
+      sourceMap: true,
+    },
+  }
 ];
 
 module.exports = (env) => {
@@ -40,14 +47,15 @@ module.exports = (env) => {
     plugins: [
       new HtmlWebpackPlugin({
         filename: 'index.html',
-        template: 'public/index.html',
+        template: 'src/assets/index.html',
       }),
+      new webpack.HotModuleReplacementPlugin(),
     ],
 
     resolve: {
       modules: [
         'node_modules',
-        'public',
+        'assets',
         'src',
       ],
       extensions: [
@@ -74,11 +82,13 @@ module.exports = (env) => {
               cacheDirectory: true,
             },
           }
-        }, {
+        },
+        {
           test: /fonts/,
           exclude: /node_modules/,
           loader: (env === 'build') ? 'url-loader?limit=1024&name=fonts/[name].[ext]' : 'file-loader',
-        }, {
+        },
+        {
           test: /img/,
           exclude: /node_modules/,
           loader: (env === 'build') ? 'url-loader?limit=10000&name=img/[name].[ext]' : 'file-loader',
@@ -97,6 +107,8 @@ module.exports = (env) => {
             port: 8800,
             publicPath: '/',
             compress: false,
+            hot: true,
+            inline: true,
           },
 
           devtool: 'inline-source-map',
@@ -104,30 +116,14 @@ module.exports = (env) => {
           module: {
             rules: [
               {
-                test: /\.css$/,
+                test: /\.(css|less)$/,
                 exclude: /node_modules?!(\/rc-slider)/,
                 use: [
                   {
                     loader: 'style-loader',
                   },
-                  ...cssLoaders,
+                  ...styleLoaders,
                 ],
-              },
-              {
-                test: /\.less$/,
-                exclude: /node_modules/,
-                use: [
-                  {
-                    loader: 'style-loader'
-                  },
-                  ...cssLoaders,
-                  {
-                    loader: 'less-loader',
-                    options: {
-                      sourceMap: true
-                    }
-                  }
-                ]
               },
             ],
           },
@@ -146,7 +142,7 @@ module.exports = (env) => {
           module: {
             rules: [
               {
-                test: /\.css$/,
+                test: /\.(css|less)$/,
                 exclude: /node_modules?!(\/rc-slider)/,
                 use: [
                   {
@@ -156,33 +152,8 @@ module.exports = (env) => {
                       fallback: 'style-loader',
                     }
                   },
-                  ...cssLoaders,
+                  ...styleLoaders,
                 ],
-              },
-              {
-                test: /\.less$/,
-                exclude: /node_modules/,
-                use: [
-                  {
-                    loader: 'file-loader',
-                    options: {
-                      name: 'css/[name].css'
-                    },
-                  },
-                  {
-                    loader: 'extract-loader',
-                    options: {
-                      publicPath: '../',
-                    }
-                  },
-                  ...cssLoaders,
-                  {
-                    loader: 'less-loader',
-                    options: {
-                      sourceMap: true
-                    }
-                  }
-                ]
               },
             ],
           },
