@@ -1,0 +1,46 @@
+.PictureEffect {
+  cursor: pointer;
+  display: block;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 700;
+  padding: 5px;
+}
+.PictureEffect:hover,
+.PictureEffect:focus,
+.PictureEffect.active {
+  color: #ffe753;
+}
+.PictureEffect.active {
+  background: rgba(80, 80, 80, 0.75);
+  border-radius: 3px;
+}
+.PictureEffect .effect-preview {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  border-radius: 5px;
+  display: block;
+  font-size: 0;
+  height: 70px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  width: 70px;
+}
+
+.PictureEffectLevel .rc-slider-handle {
+  position: relative;
+}
+.PictureEffectLevel .rc-slider-handle:before {
+  background: #333;
+  border-radius: 3px;
+  content: attr(aria-valuenow);
+  display: block;
+  left: 0;
+  line-height: 25px;
+  margin: 0 -8px;
+  min-width: 25px;
+  position: absolute;
+  right: 0;
+  top: -30px;
+}
+
