@@ -722,15 +722,6 @@ main {
   opacity: 0.6;
 }
 
-.copyright__link--text {
-  color: #fff;
-}
-
-.copyright__link--text:hover,
-.copyright__link--text:focus {
-  opacity: 0.6;
-}
-
 .page-footer__contacts {
   background-color: inherit;
 }

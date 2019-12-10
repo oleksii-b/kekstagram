@@ -38,16 +38,16 @@ class DialogMessages extends React.Component {
           isLoaded={isLoaded}
           fetchAgain={this.fetchAgain}
           uploadAnotherFile={this.uploadAnotherFile}
-          />
+        />
 
         <SuccessDialog
           isLoaded={isLoaded}
           resetPostRequestStatus={resetPostRequestStatus}
-          />
+        />
 
         <LoadingDialog
           isLoading={isLoading}
-          />
+        />
       </>
     );
   };

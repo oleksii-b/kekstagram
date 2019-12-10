@@ -24,32 +24,6 @@ class PictureDetails extends React.Component {
     ...initialState,
   };
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const {activePicture} = nextProps;
-
-    if (activePicture) {
-      const numberOfComments = activePicture.comments.length;
-
-      let {numberOfVisibleComments} = prevState;
-
-      if (!numberOfVisibleComments) {
-        numberOfVisibleComments = numberOfComments < 5 ? numberOfComments : 5;
-      }
-
-      toggleBodyOverflow('hidden');
-
-      return {
-        ...initialState,
-        numberOfVisibleComments,
-        data: activePicture,
-      };
-    }
-
-    return {
-      ...initialState,
-    };
-  };
-
   overlayRef = React.createRef();
 
   componentDidMount = () => {
@@ -144,6 +118,32 @@ class PictureDetails extends React.Component {
         </div>
       </section>
     );
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {activePicture} = nextProps;
+
+    if (activePicture) {
+      const numberOfComments = activePicture.comments.length;
+
+      let {numberOfVisibleComments} = prevState;
+
+      if (!numberOfVisibleComments) {
+        numberOfVisibleComments = numberOfComments < 5 ? numberOfComments : 5;
+      }
+
+      toggleBodyOverflow('hidden');
+
+      return {
+        ...initialState,
+        numberOfVisibleComments,
+        data: activePicture,
+      };
+    }
+
+    return {
+      ...initialState,
+    };
   };
 };
 

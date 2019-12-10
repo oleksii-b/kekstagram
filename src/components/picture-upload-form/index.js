@@ -18,31 +18,10 @@ import PictureUploader from 'components/picture-uploader';
 const PictureEditor = React.lazy(() => import('./picture-editor'));
 const PicturePreview = React.lazy(() => import('./picture-preview'));
 
-class PictureUploadForm extends React.Component {
+class PictureUploadForm extends React.PureComponent {
   state = {
     picture: null,
     isEditorVisible: false,
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const {src, isHidden, isLoaded, initialize} = nextProps;
-    const nextState = {};
-
-    toggleBodyOverflow(isHidden ? 'visible' : 'hidden');
-
-    if (isLoaded) {
-      initialize();
-    }
-
-    // render PictureEditor after the first activation
-    if (!prevState.isEditorVisible && !isHidden) {
-      nextState.isEditorVisible = true;
-    }
-
-    return {
-      ...nextState,
-      picture: src,
-    };
   };
 
   componentDidMount = () => {
@@ -126,6 +105,27 @@ class PictureUploadForm extends React.Component {
         </React.Suspense>
       </form>
     );
+  };
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {src, isHidden, isLoaded, initialize} = nextProps;
+    const nextState = {};
+
+    toggleBodyOverflow(isHidden ? 'visible' : 'hidden');
+
+    if (isLoaded) {
+      initialize();
+    }
+
+    // render PictureEditor after the first activation
+    if (!prevState.isEditorVisible && !isHidden) {
+      nextState.isEditorVisible = true;
+    }
+
+    return {
+      ...nextState,
+      picture: src,
+    };
   };
 };
 

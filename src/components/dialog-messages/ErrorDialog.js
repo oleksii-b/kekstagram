@@ -1,9 +1,13 @@
 import React from 'react';
+import cx from 'classnames';
 
 
 export default function ErrorDialog({isLoaded, fetchAgain, uploadAnotherFile}) {
   return (
-    <section className={`error ${isLoaded === false ? '' : 'visually-hidden'}`}>
+    <section className={cx({
+      'error': true,
+      'visually-hidden': isLoaded !== false,
+    })}>
       <div className="error__inner">
         <h2 className="error__title">
           Ошибка загрузки файла

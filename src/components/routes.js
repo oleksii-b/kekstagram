@@ -4,15 +4,15 @@ const routes = {
     children: [
       {
         path: '?new',
-        title: 'Новые'
+        title: 'Новые',
       },
       {
         path: '?popular',
-        title: 'Популярные'
+        title: 'Популярные',
       },
       {
         path: '?most-commented',
-        title: 'Обсуждаемые'
+        title: 'Обсуждаемые',
       },
     ],
   },

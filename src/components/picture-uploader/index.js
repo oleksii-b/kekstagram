@@ -9,7 +9,7 @@ import {
 } from 'store/actions';
 
 
-class PictureUploader extends React.Component {
+class PictureUploader extends React.PureComponent {
   componentDidUpdate() {
     if (!this.props.pictureSrc) {
       this.inputRef.current.value = null;

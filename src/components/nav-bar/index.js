@@ -12,14 +12,6 @@ class NavBar extends React.Component {
     search: routes.images.children[0].path,
   };
 
-  static getDerivedStateFromProps(nextProps) {
-    const search =  nextProps.location.search || routes.images.children[0].path;
-
-    return {
-      search,
-    };
-  };
-
   getLinks(navBarRoutes) {
     const {search} = this.state;
 
@@ -46,6 +38,14 @@ class NavBar extends React.Component {
         }
       </nav>
     );
+  };
+
+  static getDerivedStateFromProps(nextProps) {
+    const search =  nextProps.location.search || routes.images.children[0].path;
+
+    return {
+      search,
+    };
   };
 };
 
