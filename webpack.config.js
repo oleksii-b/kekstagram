@@ -6,30 +6,38 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
 const bundleFileName = '[name].js';
-const styleLoaders = [
-  {
-    loader: 'css-loader',
-  },
-  {
-    loader: 'postcss-loader',
-    options: {
-      plugins: [
-        autoprefixer({
-          browsers: [
-            'ie >= 8',
-            'last 3 version',
-          ],
-        }),
-      ],
+
+const getStyleLoaders = (options) => {
+  const isScoped = options && options.isScoped;
+
+  return [
+    {
+      loader: 'css-loader',
     },
-  },
-  {
-    loader: 'less-loader',
-    options: {
-      sourceMap: true,
+    {
+      loader: isScoped ? 'scoped-css-loader' : 'noop-loader',
     },
-  }
-];
+    {
+      loader: 'postcss-loader',
+      options: {
+        plugins: [
+          autoprefixer({
+            browsers: [
+              'ie >= 8',
+              'last 3 version',
+            ],
+          }),
+        ],
+      },
+    },
+    {
+      loader: 'less-loader',
+      options: {
+        sourceMap: true,
+      },
+    },
+  ];
+};
 
 module.exports = (env) => {
   const common = {
@@ -81,7 +89,7 @@ module.exports = (env) => {
             options: {
               cacheDirectory: true,
             },
-          }
+          },
         },
         {
           test: /fonts/,
@@ -92,6 +100,11 @@ module.exports = (env) => {
           test: /img/,
           exclude: /node_modules/,
           loader: (env === 'build') ? 'url-loader?limit=10000&name=img/[name].[ext]' : 'file-loader',
+        },
+        {
+          test: /\.ico$/,
+          exclude: /node_modules/,
+          loader: 'url-loader?limit=1024&name=[name].[ext]',
         },
       ]
     }
@@ -117,12 +130,25 @@ module.exports = (env) => {
             rules: [
               {
                 test: /\.(css|less)$/,
-                exclude: /node_modules?!(\/rc-slider)/,
+                exclude: [
+                  /node_modules?!(\/rc-slider)/,
+                  /\.scoped\.(css|less)$/,
+                ],
                 use: [
                   {
                     loader: 'style-loader',
                   },
-                  ...styleLoaders,
+                  ...getStyleLoaders(),
+                ],
+              },
+              {
+                test: /\.scoped\.(css|less)$/,
+                exclude: /node_modules/,
+                use: [
+                  {
+                    loader: 'style-loader',
+                  },
+                  ...getStyleLoaders({isScoped: true}),
                 ],
               },
             ],
@@ -143,7 +169,10 @@ module.exports = (env) => {
             rules: [
               {
                 test: /\.(css|less)$/,
-                exclude: /node_modules?!(\/rc-slider)/,
+                exclude: [
+                  /node_modules?!(\/rc-slider)/,
+                  /\.scoped\.(css|less)$/,
+                ],
                 use: [
                   {
                     loader: MiniCssExtractPlugin.loader,
@@ -152,12 +181,26 @@ module.exports = (env) => {
                       fallback: 'style-loader',
                     }
                   },
-                  ...styleLoaders,
+                  ...getStyleLoaders(),
+                ],
+              },
+              {
+                test: /\.scoped\.(css|less)$/,
+                exclude: /node_modules/,
+                use: [
+                  {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                      publicPath: '../',
+                      fallback: 'style-loader',
+                    }
+                  },
+                  ...getStyleLoaders({isScoped: true}),
                 ],
               },
             ],
           },
-        }
+        },
       ]);
   }
 };

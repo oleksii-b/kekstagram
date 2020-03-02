@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {setActivePicture} from 'store/actions';
+import './index.scoped.less';
 
 
 class PictureMini extends React.Component {

@@ -1,0 +1,64 @@
+.picture {
+  line-height: 0;
+  position: relative;
+
+  &__img {
+    height: auto;
+    max-width: auto;
+    width: 100%;
+  }
+
+  &__info {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    bottom: 10px;
+    display: none;
+    left: 50%;
+    margin: 0;
+    padding: 15px;
+    position: absolute;
+    transform: translateX(-50%);
+  }
+
+  &:hover &__info,
+  &:focus &__info {
+    display: flex;
+  }
+
+  &__comments,
+  &__likes {
+    color: #fff;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-weight: 400;
+    padding-left: 30px;
+    position: relative;
+
+    &::before {
+      background-image: url('../../assets/img/sprite.png');
+      background-repeat: no-repeat;
+      content: '';
+      left: 5px;
+      position: absolute;
+      top: -7px;
+    }
+  }
+
+  &__comments {
+    margin-right: 10px;
+
+    &::before {
+      background-position: -5px -5px;
+      height: 16px;
+      width: 20px;
+    }
+  }
+
+  &__likes {
+
+    &::before {
+      background-position: -5px -31px;
+      height: 16px;
+      width: 20px;
+    }
+  }
+}

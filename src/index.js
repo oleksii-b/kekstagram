@@ -10,6 +10,7 @@ import App from 'components/app';
 import 'rc-slider/assets/index.css';
 import 'styles/normalize.css';
 import 'styles/style.css';
+import 'favicon.ico';
 
 
 const sagaMiddleware = createSagaMiddleware();

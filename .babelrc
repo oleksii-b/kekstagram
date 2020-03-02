@@ -5,6 +5,12 @@
   ],
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-proposal-class-properties"
+    "@babel/plugin-proposal-class-properties",
+    [
+      "babel-plugin-react-scoped-css",
+      {
+        "include": ".scoped.(css|less)$"
+      }
+    ]
   ]
 }
