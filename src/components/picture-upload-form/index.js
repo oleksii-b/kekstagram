@@ -13,7 +13,7 @@ import {
 } from 'store/actions';
 import {toggleBodyOverflow} from 'utils/helpers';
 import PictureUploader from 'components/picture-uploader';
-
+import './index.scoped.less';
 
 const PictureEditor = React.lazy(() => import('./picture-editor'));
 const PicturePreview = React.lazy(() => import('./picture-preview'));
@@ -22,9 +22,9 @@ class PictureUploadForm extends React.PureComponent {
   state = {
     picture: null,
     isEditorVisible: false,
-  };
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.initialize();
 
     window.addEventListener('click', ({target}) => {
@@ -32,15 +32,15 @@ class PictureUploadForm extends React.PureComponent {
         this.resetPictureEditor();
       }
     });
-  };
+  }
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate(prevProps, prevState) {
     if (this.overlay && this.state.picture !== prevState.picture) {
       this.overlay.scrollTop = 0;
 
       this.props.initialize();
     }
-  };
+  }
 
   setOverlayRef = (overlay) => this.overlay = overlay;
 
@@ -52,7 +52,7 @@ class PictureUploadForm extends React.PureComponent {
     if (!this.props.invalid) {
       this.props.postPicture(new FormData(evt.target));
     }
-  };
+  }
 
   resetPictureEditor = () => {
     this.overlay.scrollTop = 0;
@@ -60,52 +60,50 @@ class PictureUploadForm extends React.PureComponent {
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
     this.props.initialize();
-  };
+  }
 
   onHashtagsChange = ({target}) => {
     this.props.setPictureHashtags(target.value);
-  };
+  }
 
-  render = () => {
+  render() {
     const {isHidden, effect, effectLevel, scale, setPictureHashtags} = this.props;
     const {picture, isEditorVisible} = this.state;
 
     return (
       <form
-        action='https://js.dump.academy/kekstagram'
-        className='img-upload__form'
-        id='upload-select-image'
-        method='post'
-        encType='multipart/form-data'
-        autoComplete='off'
+        action="https://js.dump.academy/kekstagram"
+        className="uploader-form"
+        method="post"
+        encType="multipart/form-data"
+        autoComplete="off"
         onSubmit={this.submitForm}
       >
         <PictureUploader />
 
         <React.Suspense fallback={null}>
-          {
-            isEditorVisible
-            &&
-              <PictureEditor
-                isHidden={isHidden}
-                hide={this.resetPictureEditor}
+          {isEditorVisible && (
+            <PictureEditor
+              isHidden={isHidden}
+              hide={this.resetPictureEditor}
+              effectName={effect}
+              setOverlayRef={this.setOverlayRef}
+              setPictureHashtags={setPictureHashtags}
+            >
+              <PicturePreview
+                className="uploader-img"
+                scale={scale}
+                src={picture}
                 effectName={effect}
-                setOverlayRef={this.setOverlayRef}
-                setPictureHashtags={setPictureHashtags}
-              >
-                <PicturePreview
-                  scale={scale}
-                  src={picture}
-                  effectName={effect}
-                  effectLevel={effectLevel}
-                  alt='Предварительный просмотр фотографии'
-                />
-              </PictureEditor>
-          }
+                effectLevel={effectLevel}
+                alt="Предварительный просмотр фотографии"
+              />
+            </PictureEditor>
+          )}
         </React.Suspense>
       </form>
     );
-  };
+  }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const {src, isHidden, isLoaded, initialize} = nextProps;
@@ -126,8 +124,8 @@ class PictureUploadForm extends React.PureComponent {
       ...nextState,
       picture: src,
     };
-  };
-};
+  }
+}
 
 function mapStateToProps(state) {
   const {src, scale, effect, effectLevel, hashtags, description} = state.pictureFormData;
@@ -144,7 +142,7 @@ function mapStateToProps(state) {
     description,
     isHidden,
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -155,7 +153,7 @@ function mapDispatchToProps(dispatch) {
     setPictureDescription,
     setDefaultValues,
   }, dispatch);
-};
+}
 
 const formCongif = {
   form: 'form',

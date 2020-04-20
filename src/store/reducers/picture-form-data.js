@@ -1,6 +1,5 @@
 import * as types from 'store/action-types';
 
-
 const initialState = {
   src: null,
   effect: 'none',
@@ -51,4 +50,4 @@ export default function pictureFormDataReducer(state = initialState, action) {
     default:
       return state;
   }
-};
+}

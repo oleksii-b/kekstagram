@@ -8,8 +8,7 @@ import {setActivePicture} from 'store/actions';
 import {toggleBodyOverflow} from 'utils/helpers';
 import PictureInfo from './picture-info';
 import Comments from './comments';
-import './index.less';
-
+import './index.scoped.less';
 
 const initialState = {
   numberOfVisibleComments: 0,
@@ -22,11 +21,11 @@ const initialState = {
 class PictureDetails extends React.Component {
   state = {
     ...initialState,
-  };
+  }
 
   overlayRef = React.createRef();
 
-  componentDidMount = () => {
+  componentDidMount() {
     window.addEventListener('click', (evt) => {
       if (evt.target === this.overlayRef.current) {
         this.hideDialog();
@@ -38,9 +37,9 @@ class PictureDetails extends React.Component {
         this.hideDialog();
       }
     });
-  };
+  }
 
-  componentDidUpdate = () => {
+  componentDidUpdate() {
     for (let avatarContainer of document.querySelectorAll('[data-avatar]')) {
       d3.svg(`https://raw.githubusercontent.com/oleksii-b/kekstagram/master/assets/img/${avatarContainer.dataset.avatar}`)
         .then(data => {
@@ -49,14 +48,14 @@ class PictureDetails extends React.Component {
           avatarContainer.innerHTML = oSerializer.serializeToString(data);
         });
     }
-  };
+  }
 
   hideDialog = () => {
     this.overlayRef.current.scrollTop = 0;
 
     toggleBodyOverflow('visible');
     this.props.setActivePicture(null);
-  };
+  }
 
   loadMoreComments = () => {
     let numberOfComments = this.state.data.comments.length;
@@ -69,16 +68,15 @@ class PictureDetails extends React.Component {
     this.setState({
       numberOfVisibleComments,
     });
-  };
+  }
 
-  render = () => {
+  render() {
     const {numberOfVisibleComments, data} = this.state;
     const {url, description, likes, comments} = data;
 
     return (
       <section
         className={cx({
-          'PictureDetails': true,
           'overlay': true,
           'hidden': !url,
         })}
@@ -110,7 +108,7 @@ class PictureDetails extends React.Component {
           {/* Кнопка для выхода из полноэкранного просмотра изображения */}
           <button
             type="reset"
-            className="picture-preview__btn-cancel cancel"
+            className="btn-cancel cancel"
             onClick={this.hideDialog}
           >
             Закрыть
@@ -145,19 +143,19 @@ class PictureDetails extends React.Component {
       ...initialState,
     };
   };
-};
+}
 
 function mapStateToProps(state) {
   return {
     activePicture: state.pictureDetails.activePicture,
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setActivePicture,
   }, dispatch);
-};
+}
 
 export default connect(
   mapStateToProps,

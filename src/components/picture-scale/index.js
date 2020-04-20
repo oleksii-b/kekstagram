@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 
 import {setPictureScale} from 'store/actions';
-
+import './index.scoped.less';
 
 let scaleRef = null;
 
@@ -16,13 +16,13 @@ class PictureScale extends React.PureComponent {
       max: 100,
       step: 25,
     };
-  };
 
-  state = {};
+    this.setScaleRef = (scale) => this.scaleRef = scale;
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     scaleRef = this.scaleRef;
-  };
+  }
 
   setScale = (evt) => {
     const {name} = evt.target.dataset;
@@ -39,62 +39,58 @@ class PictureScale extends React.PureComponent {
     }
 
     this.props.setPictureScale(scale);
-  };
+  }
 
-  setScaleRef = (scale) => this.scaleRef = scale;
-
-  render = () => (
-    <>
-      <button
-        type="button"
-        className="scale__control scale__control--smaller"
-        onClick={this.setScale}
-        data-name="decrement"
-        disabled={this.props.scale === this.scaleRange.min}
-      >
-        Уменьшить
-      </button>
-
-      <input
-        className="scale__control scale__control--value"
-        ref={this.setScaleRef}
-        defaultValue="100%"
-        title="Image Scale"
-        name="scale"
-        readOnly
-      />
-
-      <button
-        type="button"
-        className="scale__control scale__control--bigger"
-        onClick={this.setScale}
-        data-name="increment"
-        disabled={this.props.scale === this.scaleRange.max}
-      >
-        Увеличить
-      </button>
-    </>
-  );
-
-  static getDerivedStateFromProps(nextProps) {
+  render() {
     if (scaleRef) {
-      scaleRef.value = `${nextProps.scale}%`;
+      scaleRef.value = `${this.props.scale}%`;
     }
 
-    return null;
-  };
-};
+    return (
+      <div className="scale">
+        <button
+          type="button"
+          className="scale__control scale__control--smaller"
+          onClick={this.setScale}
+          data-name="decrement"
+          disabled={this.props.scale === this.scaleRange.min}
+        >
+          Уменьшить
+        </button>
 
-function mapStateToProps(state) {
-  return {
-    scale: state.pictureFormData.scale,
+        <input
+          className="scale__control scale__control--value"
+          ref={this.setScaleRef}
+          defaultValue="100%"
+          title="Image Scale"
+          name="scale"
+          readOnly
+        />
+
+        <button
+          type="button"
+          className="scale__control scale__control--bigger"
+          onClick={this.setScale}
+          data-name="increment"
+          disabled={this.props.scale === this.scaleRange.max}
+        >
+          Увеличить
+        </button>
+      </div>
+    );
   }
-};
+}
+
+function mapStateToProps({pictureFormData: {scale}}) {
+  return {
+    scale,
+  };
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setPictureScale,
   }, dispatch);
-};
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(PictureScale);

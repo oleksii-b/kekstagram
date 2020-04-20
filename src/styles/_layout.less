@@ -1,0 +1,45 @@
+.container {
+  margin: 0 auto;
+  width: 1360px;
+
+  @media (min-width: 1024px) and (max-width: 1359px) {
+    width: 980px;
+  }
+
+  @media (min-width: 0) and (max-width: 1023px) {
+    width: 600px;
+  }
+}
+
+.overlay {
+  background-color: rgba(0, 0, 0, 0.8);
+  box-sizing: border-box;
+  height: 100%;
+  left: 0;
+  overflow: auto;
+  padding: 50px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.page-footer {
+  border-top: solid 1px #ccc;
+  margin-top: 30px;
+  padding-top: 30px;
+
+  &__wrapper {
+    align-items: flex-start;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__contacts {
+    background-color: inherit;
+  }
+}
+
+.copyright {
+  font-size: 12px;
+}

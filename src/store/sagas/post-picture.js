@@ -6,7 +6,6 @@ import {
   postPictureError,
 } from 'store/actions';
 
-
 export default function* postPictureAsync(action) {
   try {
     postPictureStart();
@@ -16,7 +15,7 @@ export default function* postPictureAsync(action) {
       'https://js.dump.academy/kekstagram',
       {
         method: 'POST',
-        body: action.payload
+        body: action.payload,
       }
     );
 
@@ -30,4 +29,4 @@ export default function* postPictureAsync(action) {
   } catch (error) {
     yield put(postPictureError());
   }
-};
+}

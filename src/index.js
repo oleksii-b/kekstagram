@@ -7,9 +7,7 @@ import createSagaMiddleware from 'redux-saga';
 import {rootReducer} from 'store/reducers';
 import watchSagas from 'store/sagas';
 import App from 'components/app';
-import 'rc-slider/assets/index.css';
-import 'styles/normalize.css';
-import 'styles/style.css';
+import 'styles/main.less';
 import 'favicon.ico';
 
 

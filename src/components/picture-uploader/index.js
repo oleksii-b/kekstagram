@@ -7,7 +7,7 @@ import {
   pictureEditorShow,
   setUploadingStatus,
 } from 'store/actions';
-
+import './index.scoped.less';
 
 class PictureUploader extends React.PureComponent {
   componentDidUpdate() {
@@ -19,31 +19,31 @@ class PictureUploader extends React.PureComponent {
         this.props.setUploadingStatus(false);
       }
     }
-  };
+  }
 
   inputRef = React.createRef();
 
-  onInputChange = ({target}) => {
-    if (target.files && target.files[0]) {
+  onInputChange = ({target: {files}}) => {
+    if (files && files[0]) {
       const reader = new FileReader();
 
-      reader.addEventListener('load', ({target}) => {
+      reader.addEventListener('load', ({target: {result}}) => {
         this.props.pictureEditorShow();
-        this.props.setPictureSrc(target.result);
+        this.props.setPictureSrc(result);
       });
 
-      reader.readAsDataURL(target.files[0]);
+      reader.readAsDataURL(files[0]);
     }
-  };
+  }
 
-  render = () => {
+  render() {
     return (
-      <fieldset className="img-upload__start">
-        <label className="img-upload__label img-upload__control">
+      <fieldset className="uploader">
+        <label className="uploader-label">
           <input
             id="uploadFile"
             type="file"
-            className="img-upload__input visually-hidden"
+            className="uploader-input visually-hidden"
             ref={this.inputRef}
             onInput={this.onInputChange}
             name="filename"
@@ -53,23 +53,26 @@ class PictureUploader extends React.PureComponent {
         </label>
       </fieldset>
     );
-  };
-};
+  }
+}
 
 function mapStateToProps(state) {
   return {
     pictureSrc: state.pictureFormData.src,
     isUploading: state.pictureEditor.isUploading,
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({
-    pictureEditorShow,
-    setPictureSrc,
-    setUploadingStatus,
-  }, dispatch);
-};
+  return bindActionCreators(
+    {
+      pictureEditorShow,
+      setPictureSrc,
+      setUploadingStatus,
+    },
+    dispatch
+  );
+}
 
 export default connect(
   mapStateToProps,

@@ -1,0 +1,39 @@
+.contacts {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  &__link {
+    background-image: url(/assets/img/sprite.png);
+    background-repeat: no-repeat;
+    cursor: pointer;
+    display: block;
+    font-size: 0;
+    height: 29px;
+    margin-left: 10px;
+    opacity: 0.6;
+    width: 29px;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &--twitter {
+      background-position: -5px -270px;
+    }
+
+    &--instagram {
+      background-position: -5px -231px;
+    }
+
+    &--facebook {
+      background-position: -5px -192px;
+    }
+
+    &--vk {
+      background-position: -5px -309px;
+    }
+  }
+}

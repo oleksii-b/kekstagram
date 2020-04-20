@@ -1,6 +1,5 @@
 import * as types from 'store/action-types';
 
-
 const initialState = {
   activePicture: null,
 };
@@ -15,4 +14,4 @@ export default function pictureDetailsReducer(state = initialState, action) {
     default:
       return state;
   }
-};
+}

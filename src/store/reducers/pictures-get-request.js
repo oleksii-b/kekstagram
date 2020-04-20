@@ -1,6 +1,5 @@
 import * as types from 'store/action-types';
 
-
 const initialState = {
   data: [],
   isLoading: false,
@@ -31,4 +30,4 @@ export default function picturesGetRequestReducer(state = initialState, action) 
     default:
       return state;
   }
-};
+}

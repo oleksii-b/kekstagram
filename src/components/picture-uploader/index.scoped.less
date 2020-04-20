@@ -1,0 +1,55 @@
+.uploader {
+  background-clip: content-box;
+  background-image: url(~img/logo-mask.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: none;
+  bottom: 1px;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.uploader-label {
+  background-image: url(~img/upload-button-bg.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  font-size: 0;
+  height: 181px;
+  left: 203px;
+  position: absolute;
+  top: 194px;
+  width: 180px;
+
+  &::after {
+    background-image: url(~img/upload-button.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    content: '';
+    filter: drop-shadow(0 0 10px #943106);
+    height: 114px;
+    left: 47px;
+    position: absolute;
+    top: 32px;
+    width: 86px;
+  }
+
+  &:hover,
+  &:active {
+
+    &::after {
+      filter: drop-shadow(0 0 10px #622104);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.uploader-input {
+
+  &:focus + .uploader-label {
+    outline: auto 5px highlight;
+  }
+}

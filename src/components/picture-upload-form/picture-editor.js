@@ -7,17 +7,22 @@ import PictureEffectLevel from 'components/picture-effect-level';
 import PictureScale from 'components/picture-scale';
 import FormGroup from 'components/ui/FormGroup';
 import {correctHashtag} from 'utils/validators';
+import './picture-editor.scoped.less';
 
+export default function PictureEditor(props) {
+  const {
+    isHidden,
+    hide,
+    effectName,
+    setOverlayRef,
+    setPictureHashtags,
+    children,
+  } = props;
 
-export default function PictureEditor({
-  isHidden,
-  hide,
-  effectName,
-  setOverlayRef,
-  setPictureHashtags,
-  children,
-}) {
-  const onDescriptionChange = ({target}) => setPictureHashtags(target.value);
+  const isSliderActive = effectName !== 'none';
+
+  const onDescriptionChange = ({target: {value}}) =>
+    setPictureHashtags(value);
 
   return (
     <div
@@ -28,52 +33,47 @@ export default function PictureEditor({
       })}
     >
       <div className="img-upload__wrapper">
-        <div className="img-upload__preview-container">
-          <button type="reset" className="img-upload__cancel cancel" onClick={hide}>
+        <div className="preview-container">
+          <button type="reset" className="btn-cancel cancel" onClick={hide}>
             Закрыть
           </button>
 
           {/* Изменение размера изображения */}
-          <fieldset className="img-upload__scale scale">
+          <fieldset className="scale">
             <PictureScale />
           </fieldset>
 
           {/* Предварительный просмотр изображения */}
-          <div className="img-upload__preview">
-            {children}
-          </div>
+          {children}
 
           {/* Изменение глубины эффекта, накладываемого на изображение */}
-          <fieldset
-            className={cx({
-              'img-upload__effect-level effect-level': true,
-              'hidden': effectName === 'none',
-            })}
-          >
-            <PictureEffectLevel />
-          </fieldset>
+          {isSliderActive && (
+            <fieldset className="effect-level">
+              <PictureEffectLevel />
+            </fieldset>
+          )}
         </div>
 
         {/* Наложение эффекта на изображение */}
-        <fieldset className="img-upload__effects effects">
+        <fieldset>
           <PictureEffects />
         </fieldset>
 
         {/* Добавление хэш-тегов и комментария к изображению */}
-        <fieldset className="img-upload__text text">
+        <fieldset className="uploader-fieldset">
           <Field
             name="hashtags"
             component={FormGroup}
             type="text"
             placeholder="#хэш-тег"
             groupClass="form-group"
-            controlClass="text__hashtags"
-            errorClass="text__hashtags--error"
+            controlClass="input-control"
+            errorClass="input-control--error"
             validate={[correctHashtag]}
           />
 
           <textarea
-            className="text__description"
+            className="textarea-control"
             name="description"
             placeholder="Ваш комментарий..."
             onChange={onDescriptionChange}
@@ -81,10 +81,10 @@ export default function PictureEditor({
         </fieldset>
 
         {/* Кнопка для отправки данных на сервер */}
-        <button type="submit" className="img-upload__submit">
+        <button type="submit" className="btn-submit">
           Опубликовать
         </button>
       </div>
     </div>
   );
-};
+}

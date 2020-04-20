@@ -4,7 +4,6 @@ import {HashRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import routes from 'components/routes';
 import NavBar from 'components/nav-bar';
 
-
 const PictureList = React.lazy(() => import('components/picture-list'));
 const PictureDetails = React.lazy(() => import('components/picture-details'));
 const DialogMessages = React.lazy(() => import('components/dialog-messages'));

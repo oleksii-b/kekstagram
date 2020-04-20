@@ -1,4 +1,4 @@
-const effects = {
+export default {
   none: {
     subtitle: 'Превью фото без эффекта',
     title: 'Оригинал'
@@ -29,5 +29,3 @@ const effects = {
     title: 'Зной'
   },
 };
-
-export default effects;

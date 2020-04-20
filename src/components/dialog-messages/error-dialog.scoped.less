@@ -1,0 +1,21 @@
+.alert-dialog {
+
+  &__title {
+    font-size: 32px;
+    margin: 100px auto 50px;
+    position: relative;
+
+    &::before {
+      background-image: url(~img/icon-warning.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      content: '';
+      height: 52px;
+      left: 50%;
+      position: absolute;
+      top: -100px;
+      transform: translateX(-50%);
+      width: 60px;
+    }
+  }
+}

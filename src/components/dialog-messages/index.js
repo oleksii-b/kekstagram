@@ -9,29 +9,28 @@ import {
   setUploadingStatus,
   setDefaultValues,
 } from 'store/actions';
-import SuccessDialog from './SuccessDialog';
-import ErrorDialog from './ErrorDialog';
-import LoadingDialog from './LoadingDialog';
-
+import SuccessDialog from './success-dialog';
+import ErrorDialog from './error-dialog';
+import LoadingDialog from './loading-dialog';
 
 class DialogMessages extends React.Component {
-  state = {};
-  
+  state = {}
+
   fetchAgain = () => {
     this.props.resetPostRequestStatus();
     this.props.pictureEditorShow();
-  };
-  
+  }
+
   uploadAnotherFile = () => {
     this.props.resetPostRequestStatus();
     this.props.pictureEditorHide();
     this.props.setDefaultValues();
     this.props.setUploadingStatus(true);
-  };
-  
+  }
+
   render() {
     const {isLoading, isLoaded, resetPostRequestStatus} = this.props;
-    
+
     return (
       <>
         <ErrorDialog
@@ -50,7 +49,7 @@ class DialogMessages extends React.Component {
         />
       </>
     );
-  };
+  }
 
   static getDerivedStateFromProps = (nextProps) => {
     if (nextProps.isLoaded || nextProps.isLoading) {
@@ -58,8 +57,8 @@ class DialogMessages extends React.Component {
     }
 
     return null;
-  };
-};
+  }
+}
 
 function mapStateToProps(state) {
   const {isLoading, isLoaded} = state.picturePostRequest;

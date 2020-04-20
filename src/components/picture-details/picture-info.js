@@ -1,11 +1,10 @@
 import React from 'react';
 
-import './picture-info.less';
-
+import './picture-info.scoped.less';
 
 export default function PictureInfo({description, numberOfLikes, children}) {
   return (
-    <div className="PictureInfo social">
+    <div className="social">
       <div className="social-header">
         <img
           className="social-picture visually-hidden"
@@ -45,4 +44,4 @@ export default function PictureInfo({description, numberOfLikes, children}) {
       </div>
     </div>
   );
-};
+}

@@ -7,7 +7,6 @@ import pictureFormDataReducer from './picture-form-data';
 import picturePostRequestReducer from './picture-post-request';
 import picturesGetRequestReducer from './pictures-get-request';
 
-
 export const rootReducer = combineReducers({
   pictureDetails: pictureDetailsReducer,
   pictureEditor: pictureEditorReducer,

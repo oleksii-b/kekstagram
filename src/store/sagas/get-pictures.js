@@ -6,8 +6,7 @@ import {
   getPicturesError,
 } from 'store/actions';
 
-
-export default function* getPicturesAsync(action) {
+export default function* getPicturesAsync() {
   try {
     getPicturesStart();
 

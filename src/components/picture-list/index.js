@@ -11,19 +11,19 @@ import {
 import {getPictuersSelector} from 'utils/selectors';
 import PictureUploadForm from 'components/picture-upload-form';
 import PictureMini from 'components/picture-mini';
-
+import './index.scoped.less';
 
 class PictureList extends React.PureComponent {
   state = {
     pictures: [],
     isPosting: false,
-  };
+  }
 
-  componentDidMount = () => {
+  componentDidMount() {
     this.props.getPictures();
-  };
+  }
 
-  render = () => {
+  render() {
     const {pictures} = this.state;
 
     return (
@@ -32,10 +32,9 @@ class PictureList extends React.PureComponent {
           Фотографии других пользователей
         </h2>
 
-        {/* Поле для загрузки нового изображения на сайт */}
         <section className="img-upload">
           <div className="img-upload__wrapper">
-            <h2 className="img-upload__title visually-hidden">
+            <h2 className="visually-hidden">
               Загрузка фотографии
             </h2>
 
@@ -43,21 +42,19 @@ class PictureList extends React.PureComponent {
           </div>
         </section>
 
-        {
-          !!pictures.length
-          &&
-            pictures.map((picture) => {
-              return (
-                <PictureMini
-                  key={picture.url}
-                  data={picture}
-                />
-              );
-            })
-        }
+        {!!pictures.length && (
+          pictures.map((picture) => {
+            return (
+              <PictureMini
+                key={picture.url}
+                data={picture}
+              />
+            );
+          })
+        )}
       </section>
     );
-  };
+  }
 
   static getDerivedStateFromProps = (nextProps, prevState) => {
     let isPosting = false;
@@ -89,8 +86,8 @@ class PictureList extends React.PureComponent {
       pictures,
       isPosting,
     };
-  };
-};
+  }
+}
 
 function mapStateToProps(state) {
   const {isLoading, isLoaded} = state.picturePostRequest;
@@ -103,7 +100,7 @@ function mapStateToProps(state) {
     loadedPictures: [...data],
     hashtags: state.pictureFormData.hashtags,
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
@@ -112,7 +109,7 @@ function mapDispatchToProps(dispatch) {
     setDefaultValues,
     resetPostRequestStatus,
   }, dispatch);
-};
+}
 
 export default connect(
   mapStateToProps,

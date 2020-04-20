@@ -1,0 +1,96 @@
+.modal-open {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.input-control {
+  border-radius: 5px;
+  color: #000;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
+  margin: 0 auto;
+  padding: 5px 10px;
+  width: 100%;
+
+  &--error {
+    background: bisque;
+    border-color: red;
+  }
+}
+
+.textarea-control {
+  border-radius: 5px;
+  color: #000;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: 400;
+  height: 100px;
+  margin: 0 auto;
+  padding: 15px 10px;
+  width: 100%;
+}
+
+.error-msg {
+  color: red;
+  margin: 5px 10px 0;
+}
+
+.cancel {
+  background-color: rgba(255, 255, 255, 0.2);
+  background-image: url(~img/icon-cross.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  border: 0;
+  display: block;
+  font-size: 0;
+  height: 42px;
+  margin: 0;
+  opacity: 0.6;
+  padding: 0;
+  width: 42px;
+
+  &:hover,
+  &:focus {
+    background-color: rgba(255, 255, 255, 0.4);
+    opacity: 1;
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.effect-preview {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  border-radius: 5px;
+  display: block;
+  font-size: 0;
+  height: 70px;
+  margin-bottom: 5px;
+  overflow: hidden;
+  width: 70px;
+}
+
+.rc-slider-handle {
+  position: relative;
+
+  &:before {
+    background: #333;
+    border-radius: 3px;
+    content: attr(aria-valuenow);
+    display: block;
+    left: 0;
+    line-height: 25px;
+    margin: 0 -8px;
+    min-width: 25px;
+    position: absolute;
+    right: 0;
+    top: -30px;
+  }
+}

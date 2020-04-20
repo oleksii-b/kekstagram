@@ -5,7 +5,6 @@ import {connect} from 'react-redux';
 import {setActivePicture} from 'store/actions';
 import './index.scoped.less';
 
-
 class PictureMini extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +21,7 @@ class PictureMini extends React.Component {
     });
   };
 
-  render = () => {
+  render() {
     const {url, description, comments, likes} = this.props.data;
 
     this.url = `https://github.com/oleksii-b/kekstagram/blob/master/assets/img/${this.props.data.url}?raw=true`;
@@ -38,12 +37,12 @@ class PictureMini extends React.Component {
       </a>
     );
   };
-};
+}
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     setActivePicture,
   }, dispatch);
-};
+}
 
 export default connect(null, mapDispatchToProps)(PictureMini);
