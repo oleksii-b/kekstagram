@@ -33,7 +33,7 @@ class PictureDetails extends React.Component {
     });
 
     document.addEventListener('keydown', (evt) => {
-      if (evt.keyCode === 27) {
+      if (evt.key === 'Escape') {
         this.hideDialog();
       }
     });

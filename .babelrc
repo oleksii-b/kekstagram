@@ -12,5 +12,17 @@
         "include": ".scoped.(css|less)$"
       }
     ]
-  ]
+  ],
+  "env": {
+    "prod": {
+      "plugins": [
+        [
+          "transform-react-remove-prop-types",
+          {
+            "removeImport": true
+          }
+        ]
+      ]
+    }
+  }
 }

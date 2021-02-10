@@ -6,6 +6,21 @@ import Slider from 'rc-slider';
 import {setPictureEffectLevel} from 'store/actions';
 
 class PictureEffectLevel extends React.PureComponent {
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {effectLevel} = nextProps;
+
+    let state = {};
+
+    if (effectLevel !== prevState.val) {
+      state = {
+        ...state,
+        val: nextProps.effectLevel,
+      };
+    }
+
+    return Object.keys(state).length ? state : null;
+  }
+
   state = {
     val: 0,
   }
@@ -40,12 +55,6 @@ class PictureEffectLevel extends React.PureComponent {
         />
       </>
     );
-  }
-
-  static getDerivedStateFromProps(nextProps) {
-    return {
-      val: nextProps.effectLevel,
-    };
   }
 }
 

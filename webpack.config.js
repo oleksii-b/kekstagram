@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer');
 
-module.exports = (env) => {
-  const isBuild = env ==='build';
+module.exports = () => {
+  const isBuild = process.env.NODE_ENV === 'prod';
 
   return {
     entry: {
